@@ -1,1 +1,1078 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Vocab Arena</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff}.container{text-align:center;padding:2rem;max-width:700px;width:90%}h1{font-size:3rem;font-weight:800;background:linear-gradient(90deg,#e94560,#f5a623);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem}h1 span{font-size:1.2rem;display:block;-webkit-text-fill-color:#a8b2d8;font-weight:400;margin-top:.3rem}.card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:2.5rem;margin:2rem 0;backdrop-filter:blur(10px)}.word{font-size:2.5rem;font-weight:700;color:#e2e8f0;margin-bottom:1rem}.hint{color:#a8b2d8;font-size:1rem;margin-bottom:1.5rem}.options{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}button.opt{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#e2e8f0;padding:1rem;border-radius:12px;font-size:1rem;cursor:pointer;transition:all .2s}button.opt:hover{background:rgba(233,69,96,.3);border-color:#e94560;transform:translateY(-2px)}button.opt.correct{background:rgba(72,187,120,.3);border-color:#48bb78}button.opt.wrong{background:rgba(233,69,96,.3);border-color:#e94560}.score{font-size:1.2rem;color:#a8b2d8;margin-bottom:1rem}.score span{color:#f5a623;font-weight:700;font-size:1.5rem}#feedback{font-size:1.1rem;min-height:1.5rem;margin-top:1rem;font-weight:600}#next-btn{background:linear-gradient(90deg,#e94560,#f5a623);border:none;color:#fff;padding:.8rem 2.5rem;border-radius:50px;font-size:1rem;cursor:pointer;margin-top:1rem;display:none;font-weight:600;transition:transform .2s}#next-btn:hover{transform:scale(1.05)}.progress{width:100%;background:rgba(255,255,255,.1);border-radius:10px;height:8px;margin-bottom:1rem}.progress-bar{height:100%;border-radius:10px;background:linear-gradient(90deg,#e94560,#f5a623);transition:width .3s}</style></head><body><div class="container"><h1>Vocab Arena<span>Test Your Vocabulary</span></h1><div class="score">Score: <span id="score">0</span> &nbsp;|&nbsp; Q: <span id="qnum">1</span>/10</div><div class="progress"><div class="progress-bar" id="prog" style="width:10%"></div></div><div class="card"><div class="word" id="word"></div><div class="hint" id="hint"></div><div class="options" id="opts"></div><div id="feedback"></div><button id="next-btn" onclick="nextQ()">Next &rarr;</button></div></div><script>const data=[{w:'Ephemeral',h:'adjective',d:'Lasting for a very short time',opts:['Lasting forever','Lasting a short time','Very bright','Deeply hidden']},{w:'Eloquent',h:'adjective',d:'Fluent or persuasive in speaking',opts:['Clumsy with words','Fluent and persuasive','Very quiet','Extremely loud']},{w:'Benevolent',h:'adjective',d:'Well meaning and kindly',opts:['Cruel and harsh','Well meaning and kind','Indifferent','Secretive']},{w:'Cogent',h:'adjective',d:'Clear and convincing',opts:['Confusing','Clear and convincing','Irrelevant','Boring']},{w:'Loquacious',h:'adjective',d:'Tending to talk a great deal',opts:['Very quiet','Talkative','Mysterious','Lazy']},{w:'Prudent',h:'adjective',d:'Acting with care and thought',opts:['Reckless','Careful and wise','Generous','Fearful']},{w:'Ambiguous',h:'adjective',d:'Open to more than one interpretation',opts:['Clear and obvious','Open to interpretation','Absolute','Simple']},{w:'Tenacious',h:'adjective',d:'Holding firm to purpose',opts:['Giving up easily','Holding firm','Flexible','Indecisive']},{w:'Verbose',h:'adjective',d:'Using more words than needed',opts:['Brief and concise','Using too many words','Silent','Unclear']},{w:'Astute',h:'adjective',d:'Having an ability to accurately assess situations',opts:['Foolish','Shrewd and clever','Generous','Emotional']}];let idx=0,score=0,answered=false;function load(){const q=data[idx];document.getElementById('word').textContent=q.w;document.getElementById('hint').textContent='('+q.h+')';document.getElementById('feedback').textContent='';document.getElementById('next-btn').style.display='none';document.getElementById('prog').style.width=((idx+1)/data.length*100)+'%';document.getElementById('qnum').textContent=idx+1;const opts=document.getElementById('opts');opts.innerHTML='';const shuffled=[...q.opts].sort(()=>Math.random()-.5);shuffled.forEach(o=>{const b=document.createElement('button');b.className='opt';b.textContent=o;b.onclick=()=>check(o,q.d,b);opts.appendChild(b)});answered=false}function check(chosen,correct,btn){if(answered)return;answered=true;const btns=document.querySelectorAll('.opt');btns.forEach(b=>{b.disabled=true;if(b.textContent===correct)b.classList.add('correct')});if(chosen===correct){score++;document.getElementById('score').textContent=score;document.getElementById('feedback').style.color='#48bb78';document.getElementById('feedback').textContent='Correct!'}else{btn.classList.add('wrong');document.getElementById('feedback').style.color='#e94560';document.getElementById('feedback').textContent='Wrong! Answer: '+correct}document.getElementById('next-btn').style.display='inline-block'}function nextQ(){idx++;if(idx>=data.length){document.querySelector('.card').innerHTML='<div style="font-size:2rem;font-weight:700;margin-bottom:1rem">Game Over!</div><div style="font-size:1.2rem;color:#a8b2d8">Final Score: <span style="color:#f5a623;font-size:2rem;font-weight:700">'+score+'/'+data.length+'</span></div><button onclick="location.reload()" style="margin-top:2rem;background:linear-gradient(90deg,#e94560,#f5a623);border:none;color:#fff;padding:.8rem 2.5rem;border-radius:50px;font-size:1rem;cursor:pointer;font-weight:600">Play Again</button>'}else{load()}}load();</script></body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Vocab Arena - 词汇竞技场</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --secondary: #ff2d55;
+            --accent: #ffcc00;
+            --dark: #0d1117;
+            --darker: #010409;
+            --card: #161b22;
+            --card-hover: #1c2128;
+            --success: #3fb950;
+            --danger: #f85149;
+            --warning: #d29922;
+            --text: #c9d1d9;
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        body { font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--darker); color: var(--text); min-height: 100vh; overflow-x: hidden; position: relative; }
+        .bg-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+        .scanline { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, transparent, var(--primary), transparent); opacity: 0.3; animation: scan 4s linear infinite; pointer-events: none; z-index: 2; }
+        @keyframes scan { 0% { top: -4px; } 100% { top: 100vh; } }
+        .app-container { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+        .status-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: linear-gradient(180deg, rgba(13,17,23,0.98) 0%, transparent 100%); position: sticky; top: 0; z-index: 100; }
+        .user-badge { display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 16px; color: white; border: 2px solid rgba(0,212,255,0.4); box-shadow: 0 0 20px rgba(0,212,255,0.2); }
+        .user-info { display: flex; flex-direction: column; }
+        .username { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--primary); font-weight: 700; letter-spacing: 0.5px; }
+        .level-badge { font-size: 10px; color: var(--accent); display: flex; align-items: center; gap: 4px; font-weight: 600; }
+        .stats-mini { display: flex; gap: 14px; font-size: 11px; }
+        .stat-item { display: flex; align-items: center; gap: 4px; color: var(--text-dim); }
+        .stat-item .value { color: var(--primary); font-family: 'Inter', sans-serif; font-weight: 800; }
+        .page { display: none; flex: 1; flex-direction: column; padding: 0 16px 20px; animation: fadeIn 0.3s ease; }
+        .page.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .login-page { justify-content: center; align-items: center; text-align: center; min-height: 100vh; }
+        .logo-container { margin-bottom: 50px; }
+        .logo { font-family: 'Inter', sans-serif; font-size: 40px; font-weight: 900; color: white; letter-spacing: 3px; text-shadow: 0 0 30px rgba(0,212,255,0.4); }
+        .logo-sub { font-size: 14px; color: var(--text-dim); margin-top: 10px; letter-spacing: 6px; font-weight: 500; }
+        .login-form { width: 100%; max-width: 320px; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 11px; color: var(--primary); margin-bottom: 8px; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
+        .input-field { width: 100%; padding: 14px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: 16px; outline: none; transition: all 0.3s; font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+        .input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,212,255,0.1); }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Inter', 'Noto Sans SC', sans-serif; position: relative; overflow: hidden; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), #0099cc); color: white; box-shadow: 0 4px 20px rgba(0,212,255,0.3); }
+        .btn-primary:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(0,212,255,0.2); }
+        .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); margin-top: 12px; }
+        .btn-secondary:active { background: var(--card-hover); }
+        .hero-card { background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(255,45,85,0.08)); border: 1px solid rgba(0,212,255,0.15); border-radius: 16px; padding: 22px; margin-bottom: 20px; position: relative; overflow: hidden; }
+        .hero-title { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--primary); margin-bottom: 12px; font-weight: 700; letter-spacing: 1px; }
+        .hero-stats { display: flex; gap: 24px; position: relative; }
+        .hero-stat { text-align: center; }
+        .hero-stat .num { font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 900; color: var(--accent); }
+        .hero-stat .label { font-size: 11px; color: var(--text-dim); margin-top: 4px; font-weight: 500; }
+        .section-title { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--primary); margin: 24px 0 12px; display: flex; align-items: center; gap: 8px; font-weight: 700; letter-spacing: 0.5px; }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+        .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .mode-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 14px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+        .mode-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--primary), var(--secondary)); opacity: 0; transition: opacity 0.2s; }
+        .mode-card:active::before { opacity: 1; }
+        .mode-card:active { transform: scale(0.96); background: var(--card-hover); border-color: var(--primary); }
+        .mode-icon { font-size: 28px; margin-bottom: 8px; }
+        .mode-name { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); font-weight: 700; }
+        .mode-desc { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+        .unit-list { display: flex; flex-direction: column; gap: 6px; }
+        .unit-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s; }
+        .unit-item:active { background: var(--card-hover); border-color: var(--primary); }
+        .unit-info { display: flex; flex-direction: column; gap: 2px; }
+        .unit-name { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); font-weight: 600; }
+        .unit-progress { font-size: 10px; color: var(--text-dim); }
+        .unit-progress-bar { width: 50px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+        .unit-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); border-radius: 2px; transition: width 0.5s; }
+        .unit-status { font-family: 'Inter', sans-serif; font-size: 10px; padding: 3px 8px; border-radius: 12px; background: rgba(63,185,80,0.1); color: var(--success); font-weight: 600; }
+        .game-page { padding: 0; position: relative; }
+        .game-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(13,17,23,0.95); }
+        .game-timer { font-family: 'Inter', sans-serif; font-size: 16px; color: var(--primary); font-weight: 700; letter-spacing: 1px; }
+        .game-score { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--accent); font-weight: 800; }
+        .hp-bar-container { width: 100px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; position: relative; }
+        .hp-bar { height: 100%; background: linear-gradient(90deg, var(--danger), var(--warning), var(--success)); border-radius: 3px; transition: width 0.4s ease; }
+        .hp-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 8px; font-family: 'Inter', sans-serif; color: white; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .combo-display { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--accent); text-align: center; margin: 6px 0; min-height: 18px; font-weight: 800; }
+        .combo-display.active { animation: comboPop 0.3s ease; }
+        @keyframes comboPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .word-display { background: linear-gradient(180deg, var(--card) 0%, var(--darker) 100%); border: 1px solid var(--border); border-radius: 16px; padding: 24px 18px; margin: 0 14px 14px; text-align: center; position: relative; overflow: hidden; }
+        .word-display::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
+        .word-type-badge { display: inline-block; padding: 3px 10px; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.25); border-radius: 16px; font-size: 10px; color: var(--primary); font-family: 'Inter', sans-serif; margin-bottom: 10px; font-weight: 600; }
+        .word-main { font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: white; margin: 6px 0; letter-spacing: 0.5px; line-height: 1.3; }
+        .word-phonetic { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; font-family: 'Inter', sans-serif; }
+        .word-meaning { font-size: 17px; color: var(--primary); font-weight: 600; margin-bottom: 14px; }
+        .word-sentence { font-size: 14px; color: var(--text-dim); line-height: 1.7; font-style: italic; padding: 0 6px; font-family: 'Inter', sans-serif; }
+        .word-sentence-cn { font-size: 13px; color: var(--text-dim); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.6; }
+        .speak-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); border-radius: 20px; color: var(--primary); font-size: 13px; font-weight: 600; cursor: pointer; margin: 10px 0; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+        .speak-btn:active { background: rgba(0,212,255,0.2); transform: scale(0.95); }
+        .speak-btn.speaking { animation: pulseSpeak 0.8s ease infinite; }
+        @keyframes pulseSpeak { 0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0.4); } 50% { box-shadow: 0 0 0 8px rgba(0,212,255,0); } }
+        .options-container { padding: 0 14px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+        .option-btn { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; color: var(--text); font-size: 15px; cursor: pointer; transition: all 0.15s; text-align: left; position: relative; overflow: hidden; font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+        .option-btn:active { transform: scale(0.98); }
+        .option-btn.correct { background: rgba(63,185,80,0.12); border-color: var(--success); color: var(--success); animation: correctPulse 0.4s ease; }
+        .option-btn.wrong { background: rgba(248,81,73,0.12); border-color: var(--danger); color: var(--danger); animation: shake 0.4s ease; }
+        .option-btn.revealed { background: rgba(0,212,255,0.08); border-color: var(--primary); }
+        @keyframes correctPulse { 0% { transform: scale(1); } 50% { transform: scale(1.01); box-shadow: 0 0 20px rgba(63,185,80,0.2); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 15% { transform: translateX(-8px); } 30% { transform: translateX(8px); } 45% { transform: translateX(-4px); } 60% { transform: translateX(4px); } 75% { transform: translateX(-2px); } }
+        .option-label { display: inline-block; width: 26px; height: 26px; background: var(--border); border-radius: 6px; text-align: center; line-height: 26px; font-family: 'Inter', sans-serif; font-size: 12px; margin-right: 12px; color: var(--text-dim); font-weight: 700; }
+        .option-btn.correct .option-label { background: var(--success); color: white; }
+        .option-btn.wrong .option-label { background: var(--danger); color: white; }
+        .game-controls { display: flex; gap: 8px; padding: 0 14px 16px; }
+        .control-btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+        .control-btn.skip { background: var(--card); color: var(--text-dim); border: 1px solid var(--border); }
+        .control-btn.skip:active { background: var(--card-hover); }
+        .result-page { justify-content: center; align-items: center; text-align: center; }
+        .result-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 36px 28px; width: 100%; max-width: 340px; position: relative; overflow: hidden; }
+        .result-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent)); }
+        .result-icon { font-size: 56px; margin-bottom: 14px; }
+        .result-title { font-family: 'Inter', sans-serif; font-size: 22px; color: var(--primary); margin-bottom: 6px; font-weight: 800; }
+        .result-subtitle { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; }
+        .result-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .result-stat { background: var(--darker); border-radius: 10px; padding: 14px; }
+        .result-stat .num { font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 900; color: var(--accent); }
+        .result-stat .label { font-size: 11px; color: var(--text-dim); margin-top: 4px; font-weight: 500; }
+        .result-rank { font-family: 'Inter', sans-serif; font-size: 16px; color: var(--secondary); margin: 14px 0; padding: 10px; background: rgba(255,45,85,0.08); border-radius: 10px; border: 1px solid rgba(255,45,85,0.2); font-weight: 700; }
+        .settings-list { display: flex; flex-direction: column; gap: 10px; }
+        .settings-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .settings-item-info { display: flex; flex-direction: column; gap: 3px; }
+        .settings-item-title { font-size: 14px; color: var(--text); font-weight: 600; }
+        .settings-item-desc { font-size: 11px; color: var(--text-dim); }
+        .toggle { width: 46px; height: 26px; background: var(--border); border-radius: 13px; position: relative; cursor: pointer; transition: background 0.3s; }
+        .toggle.active { background: var(--primary); }
+        .toggle::after { content: ''; position: absolute; width: 22px; height: 22px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: transform 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .toggle.active::after { transform: translateX(20px); }
+        .bottom-nav { display: flex; justify-content: space-around; align-items: center; padding: 6px 0 18px; background: rgba(13,17,23,0.95); border-top: 1px solid var(--border); position: sticky; bottom: 0; backdrop-filter: blur(10px); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 16px; cursor: pointer; transition: all 0.2s; color: var(--text-dim); }
+        .nav-item.active { color: var(--primary); }
+        .nav-item .icon { font-size: 20px; }
+        .nav-item .label { font-size: 9px; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .progress-ring { width: 100px; height: 100px; margin: 0 auto 16px; position: relative; }
+        .progress-ring svg { transform: rotate(-90deg); }
+        .progress-ring-circle { fill: none; stroke: var(--border); stroke-width: 8; }
+        .progress-ring-progress { fill: none; stroke: url(#gradient); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+        .progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 900; color: var(--primary); }
+        .error-reveal { background: rgba(255,45,85,0.08); border: 1px solid rgba(255,45,85,0.2); border-radius: 10px; padding: 14px; margin: 0 14px 14px; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        .error-reveal .error-title { color: var(--secondary); font-size: 13px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .error-reveal .error-content { font-size: 13px; color: var(--text); line-height: 1.6; font-family: 'Inter', sans-serif; }
+        .error-reveal .error-cn { font-size: 12px; color: var(--text-dim); margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,45,85,0.15); }
+        .streak-effect { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Inter', sans-serif; font-size: 42px; font-weight: 900; color: var(--accent); pointer-events: none; z-index: 1000; animation: streakAnim 0.8s ease forwards; text-shadow: 0 0 30px rgba(255,204,0,0.5); }
+        @keyframes streakAnim { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); } 100% { opacity: 0; transform: translate(-50%, -70%) scale(1); } }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(1,4,9,0.92); z-index: 500; display: none; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        .overlay.active { display: flex; }
+        .overlay-content { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 22px; width: 90%; max-width: 320px; text-align: center; }
+        .overlay-title { font-family: 'Inter', sans-serif; font-size: 18px; color: var(--primary); margin-bottom: 12px; font-weight: 800; }
+        .overlay-text { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; line-height: 1.6; }
+        .leaderboard-list { display: flex; flex-direction: column; gap: 6px; }
+        .leaderboard-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+        .leaderboard-rank { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+        .leaderboard-rank.gold { background: linear-gradient(135deg, #ffd700, #ffaa00); color: var(--dark); }
+        .leaderboard-rank.silver { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); color: var(--dark); }
+        .leaderboard-rank.bronze { background: linear-gradient(135deg, #cd7f32, #b87333); color: var(--dark); }
+        .leaderboard-rank.normal { background: var(--border); color: var(--text-dim); }
+        .leaderboard-info { flex: 1; }
+        .leaderboard-name { font-size: 14px; color: var(--text); font-weight: 600; }
+        .leaderboard-score { font-size: 11px; color: var(--text-dim); }
+        .leaderboard-points { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--accent); font-weight: 800; }
+        @media (min-width: 480px) { .app-container { border-left: 1px solid var(--border); border-right: 1px solid var(--border); } }
+        ::-webkit-scrollbar { width: 0; height: 0; }
+        ::selection { background: rgba(0,212,255,0.2); color: var(--text); }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="scanline"></div>
+    <div class="app-container">
+        <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#00d4ff"/><stop offset="100%" style="stop-color:#ff2d55"/></linearGradient></defs></svg>
+        <div class="page login-page active" id="loginPage">
+            <div class="logo-container"><div class="logo">VOCAB ARENA</div><div class="logo-sub">词汇竞技场</div></div>
+            <div class="login-form">
+                <div class="input-group"><label>特工代号 / Username</label><input type="text" class="input-field" id="usernameInput" placeholder="输入你的代号" maxlength="12"></div>
+                <button class="btn btn-primary" onclick="login()">进入竞技场</button>
+                <button class="btn btn-secondary" onclick="showLeaderboard()">排行榜</button>
+            </div>
+        </div>
+        <div class="page home-page" id="homePage">
+            <div class="status-bar">
+                <div class="user-badge"><div class="avatar" id="userAvatar">V</div><div class="user-info"><div class="username" id="displayUsername">VocabMaster</div><div class="level-badge"><span>⚡</span><span id="userLevel">LV.1 新兵</span></div></div></div>
+                <div class="stats-mini"><div class="stat-item"><span>🔥</span><span class="value" id="totalWords">0</span></div><div class="stat-item"><span>⭐</span><span class="value" id="totalXP">0</span></div></div>
+            </div>
+            <div class="hero-card">
+                <div class="hero-title">今日战绩</div>
+                <div class="hero-stats">
+                    <div class="hero-stat"><div class="num" id="todayCorrect">0</div><div class="label">正确</div></div>
+                    <div class="hero-stat"><div class="num" id="todayStreak">0</div><div class="label">连胜</div></div>
+                    <div class="hero-stat"><div class="num" id="todayAccuracy">0%</div><div class="label">准确率</div></div>
+                </div>
+            </div>
+            <div class="section-title">战斗模式</div>
+            <div class="mode-grid">
+                <div class="mode-card" onclick="startGame('en2cn')"><div class="mode-icon">🎯</div><div class="mode-name">英选中</div><div class="mode-desc">看英文选中文</div></div>
+                <div class="mode-card" onclick="startGame('cn2en')"><div class="mode-icon">🔍</div><div class="mode-name">中选英</div><div class="mode-desc">看中文选英文</div></div>
+                <div class="mode-card" onclick="startGame('sentence')"><div class="mode-icon">📖</div><div class="mode-name">句意理解</div><div class="mode-desc">理解句子含义</div></div>
+                <div class="mode-card" onclick="startGame('boss')"><div class="mode-icon">👹</div><div class="mode-name">BOSS战</div><div class="mode-desc">攻克错题本</div></div>
+            </div>
+            <div class="section-title">单词单元</div>
+            <div class="unit-list" id="unitList"></div>
+        </div>
+        <div class="page game-page" id="gamePage">
+            <div class="game-header">
+                <div class="game-timer" id="gameTimer">00:00</div>
+                <div class="hp-bar-container"><div class="hp-bar" id="hpBar" style="width: 100%"></div><div class="hp-text">HP</div></div>
+                <div class="game-score" id="gameScore">0</div>
+            </div>
+            <div class="combo-display" id="comboDisplay"></div>
+            <div class="word-display" id="wordDisplay">
+                <div class="word-type-badge" id="wordType">n.</div>
+                <div class="word-main" id="wordMain">exchange</div>
+                <div class="word-meaning" id="wordMeaning">交换；交易</div>
+                <button class="speak-btn" id="speakBtn" onclick="speakCurrent()">🔊 朗读</button>
+                <div class="word-sentence" id="wordSentence">The gentlemen exchange phone numbers.</div>
+                <div class="word-sentence-cn" id="wordSentenceCn">绅士们交换了电话号码。</div>
+            </div>
+            <div class="error-reveal" id="errorReveal" style="display:none">
+                <div class="error-title">❌ 错误！正确答案：</div>
+                <div class="error-content" id="errorContent"></div>
+                <div class="error-cn" id="errorCn"></div>
+            </div>
+            <div class="options-container" id="optionsContainer"></div>
+            <div class="game-controls">
+                <button class="control-btn skip" onclick="skipWord()">不认识 ⏭</button>
+                <button class="control-btn skip" onclick="pauseGame()">暂停 ⏸</button>
+            </div>
+        </div>
+        <div class="page result-page" id="resultPage">
+            <div class="result-card">
+                <div class="result-icon" id="resultIcon">🏆</div>
+                <div class="result-title" id="resultTitle">战斗结束</div>
+                <div class="result-subtitle" id="resultSubtitle">表现不错，继续加油！</div>
+                <div class="progress-ring">
+                    <svg width="100" height="100"><circle class="progress-ring-circle" cx="50" cy="50" r="42"/><circle class="progress-ring-progress" id="progressCircle" cx="50" cy="50" r="42" stroke-dasharray="263.89" stroke-dashoffset="263.89"/></svg>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+                <div class="result-stats">
+                    <div class="result-stat"><div class="num" id="resultCorrect">0</div><div class="label">正确</div></div>
+                    <div class="result-stat"><div class="num" id="resultWrong">0</div><div class="label">错误</div></div>
+                    <div class="result-stat"><div class="num" id="resultCombo">0</div><div class="label">最高连击</div></div>
+                    <div class="result-stat"><div class="num" id="resultXP">0</div><div class="label">获得经验</div></div>
+                </div>
+                <div class="result-rank" id="resultRank">评价: C级 新兵</div>
+                <button class="btn btn-primary" onclick="backToHome()" style="margin-bottom: 10px">返回主页</button>
+                <button class="btn btn-secondary" onclick="retryGame()">再来一局</button>
+            </div>
+        </div>
+        <div class="page" id="settingsPage">
+            <div class="status-bar"><div class="user-badge"><div class="avatar" id="settingsAvatar">V</div><div class="user-info"><div class="username" id="settingsUsername">设置</div></div></div></div>
+            <div class="section-title">游戏设置</div>
+            <div class="settings-list">
+                <div class="settings-item"><div class="settings-item-info"><div class="settings-item-title">音效</div><div class="settings-item-desc">和平精英风格游戏音效</div></div><div class="toggle active" id="soundToggle" onclick="toggleSetting(this)"></div></div>
+                <div class="settings-item"><div class="settings-item-info"><div class="settings-item-title">语音朗读</div><div class="settings-item-desc">自动朗读单词和句子</div></div><div class="toggle active" id="voiceToggle" onclick="toggleSetting(this)"></div></div>
+                <div class="settings-item"><div class="settings-item-info"><div class="settings-item-title">震动反馈</div><div class="settings-item-desc">答错时震动提示</div></div><div class="toggle active" id="vibrateToggle" onclick="toggleSetting(this)"></div></div>
+                <div class="settings-item"><div class="settings-item-info"><div class="settings-item-title">显示句子翻译</div><div class="settings-item-desc">答题时显示中文翻译</div></div><div class="toggle active" id="showCnToggle" onclick="toggleSetting(this)"></div></div>
+                <div class="settings-item"><div class="settings-item-info"><div class="settings-item-title">困难模式</div><div class="settings-item-desc">减少选项数量，增加挑战</div></div><div class="toggle" id="hardModeToggle" onclick="toggleSetting(this)"></div></div>
+            </div>
+            <div class="section-title">数据管理</div>
+            <div class="settings-list">
+                <div class="settings-item" onclick="resetProgress()"><div class="settings-item-info"><div class="settings-item-title" style="color: var(--danger)">重置进度</div><div class="settings-item-desc">清空所有学习记录</div></div></div>
+                <div class="settings-item" onclick="exportData()"><div class="settings-item-info"><div class="settings-item-title">导出数据</div><div class="settings-item-desc">备份学习数据到剪贴板</div></div></div>
+            </div>
+            <div class="section-title">关于</div>
+            <div style="text-align: center; padding: 20px; color: var(--text-dim); font-size: 13px;"><p>Vocab Arena v2.0</p><p style="margin-top: 8px">基于 1000 Basic English Words</p><p style="margin-top: 4px">电竞主题英语快刷训练</p></div>
+        </div>
+        <div class="page" id="leaderboardPage">
+            <div class="status-bar"><div class="user-badge"><div class="avatar">🏆</div><div class="user-info"><div class="username">排行榜</div></div></div></div>
+            <div class="leaderboard-list" id="leaderboardList"></div>
+            <button class="btn btn-secondary" onclick="backToLogin()" style="margin: 20px 16px">返回</button>
+        </div>
+        <div class="bottom-nav" id="bottomNav" style="display:none">
+            <div class="nav-item active" onclick="switchTab('home')"><div class="icon">⚔</div><div class="label">战斗</div></div>
+            <div class="nav-item" onclick="switchTab('stats')"><div class="icon">📊</div><div class="label">数据</div></div>
+            <div class="nav-item" onclick="switchTab('settings')"><div class="icon">⚙</div><div class="label">设置</div></div>
+        </div>
+    </div>
+    <div class="overlay" id="pauseOverlay">
+        <div class="overlay-content">
+            <div class="overlay-title">⏸ 游戏暂停</div>
+            <div class="overlay-text">休息一下，准备继续战斗！</div>
+            <button class="btn btn-primary" onclick="resumeGame()">继续战斗</button>
+            <button class="btn btn-secondary" onclick="quitGame()" style="margin-top: 10px">退出战斗</button>
+        </div>
+    </div>
+    <script>
+
+// ==================== 单词数据库 ====================
+const VOCAB_DATA = {"Book2_Unit1": [{"word": "angry", "pos": "adj.", "meaning": "生气的", "sentence": "Because Jane does not listen to her, Jane's mom is angry.", "sentence_cn": "因为简不听她的话，简的妈妈很生气。"}, {"word": "boring", "pos": "adj.", "meaning": "无聊的", "sentence": "Jason hates staying inside because it is so boring.", "sentence_cn": "杰森讨厌待在室内，因为太无聊了。"}, {"word": "class", "pos": "n.", "meaning": "班级；课", "sentence": "Ryan's dad teaches a new class.", "sentence_cn": "瑞安的爸爸教一个新班级。"}, {"word": "dream", "pos": "v.", "meaning": "梦想", "sentence": "She dreams about living in the city.", "sentence_cn": "她梦想着住在城市里。"}, {"word": "famous", "pos": "adj.", "meaning": "著名的", "sentence": "The kids like the famous baseball player.", "sentence_cn": "孩子们喜欢这位著名的棒球运动员。"}, {"word": "feel", "pos": "v.", "meaning": "感觉", "sentence": "He felt very hot after walking for half the morning.", "sentence_cn": "走了半个上午后，他感觉很热。"}, {"word": "future", "pos": "n.", "meaning": "未来", "sentence": "In the future, we will not need roads for driving.", "sentence_cn": "在未来，我们开车将不需要道路。"}, {"word": "group", "pos": "n.", "meaning": "小组；团体", "sentence": "The group uses a large table to study.", "sentence_cn": "这个小组用一张大桌子学习。"}, {"word": "hobby", "pos": "n.", "meaning": "爱好", "sentence": "Her hobbies are drawing and painting.", "sentence_cn": "她的爱好是画画。"}, {"word": "job", "pos": "n.", "meaning": "工作", "sentence": "She needs money, so she wants to get a job.", "sentence_cn": "她需要钱，所以想找一份工作。"}, {"word": "hundred", "pos": "n.", "meaning": "百", "sentence": "Five hundred dollars is a lot of money.", "sentence_cn": "五百美元是一大笔钱。"}, {"word": "invite", "pos": "v.", "meaning": "邀请", "sentence": "Mrs. Jones invited us into her home.", "sentence_cn": "琼斯夫人邀请我们到她家。"}, {"word": "math", "pos": "n.", "meaning": "数学", "sentence": "The boy is good at math.", "sentence_cn": "这个男孩擅长数学。"}, {"word": "photograph", "pos": "n.", "meaning": "照片", "sentence": "I am glad you shared these photos with me.", "sentence_cn": "我很高兴你和我分享了这些照片。"}, {"word": "president", "pos": "n.", "meaning": "总统；主席", "sentence": "Many kids dream about becoming their country's president.", "sentence_cn": "许多孩子梦想成为他们国家的总统。"}, {"word": "really", "pos": "adv.", "meaning": "真正地；非常", "sentence": "This TV show is really good.", "sentence_cn": "这个电视节目非常好。"}, {"word": "speech", "pos": "n.", "meaning": "演讲", "sentence": "The woman answered a lot of questions during her speech.", "sentence_cn": "这位女士在演讲中回答了很多问题。"}, {"word": "travel", "pos": "v.", "meaning": "旅行", "sentence": "Vicky loves to travel. She goes to many faraway places.", "sentence_cn": "维姬喜欢旅行。她去很多遥远的地方。"}, {"word": "voice", "pos": "n.", "meaning": "声音", "sentence": "Janet has a beautiful voice. She should give singing lessons.", "sentence_cn": "珍妮特有一副好嗓子。她应该教唱歌课。"}, {"word": "wonder", "pos": "v.", "meaning": "想知道", "sentence": "Carlos did not bring a pencil to class today. I wonder why.", "sentence_cn": "卡洛斯今天没带铅笔来上课。我想知道为什么。"}], "Book2_Unit2": [{"word": "baseball", "pos": "n.", "meaning": "棒球", "sentence": "I really like to play baseball with my brother.", "sentence_cn": "我真的很喜欢和我哥哥打棒球。"}, {"word": "basketball", "pos": "n.", "meaning": "篮球", "sentence": "I need new shoes for playing basketball.", "sentence_cn": "我需要新鞋来打篮球。"}, {"word": "dangerous", "pos": "adj.", "meaning": "危险的", "sentence": "Going into the city alone can be dangerous.", "sentence_cn": "独自进城可能很危险。"}, {"word": "excited", "pos": "adj.", "meaning": "兴奋的", "sentence": "Lisa is excited to hear the president's speech.", "sentence_cn": "莉萨很兴奋能听到总统的演讲。"}, {"word": "hill", "pos": "n.", "meaning": "小山", "sentence": "I wonder what is at the top of that hill.", "sentence_cn": "我想知道那座山顶上有什么。"}, {"word": "hit", "pos": "v.", "meaning": "打；击", "sentence": "Josh hit the ball with his bat.", "sentence_cn": "乔希用球棒击中了球。"}, {"word": "hospital", "pos": "n.", "meaning": "医院", "sentence": "The nurse at the hospital was nice to Janet.", "sentence_cn": "医院的护士对珍妮特很好。"}, {"word": "hurt", "pos": "v.", "meaning": "受伤", "sentence": "Max hurt his leg when he fell down during the game.", "sentence_cn": "马克斯在比赛中摔倒时伤了腿。"}, {"word": "motorbike", "pos": "n.", "meaning": "摩托车", "sentence": "Riding a motorbike is one of my hobbies.", "sentence_cn": "骑摩托车是我的爱好之一。"}, {"word": "slow", "pos": "adj.", "meaning": "慢的", "sentence": "The snail is a slow animal.", "sentence_cn": "蜗牛是一种行动缓慢的动物。"}, {"word": "drop", "pos": "v.", "meaning": "掉落", "sentence": "Agnes dropped the ball.", "sentence_cn": "阿格尼丝把球掉了。"}, {"word": "earth", "pos": "n.", "meaning": "土地；地球", "sentence": "The earth here is perfect for growing things.", "sentence_cn": "这里的土地非常适合种植东西。"}, {"word": "flag", "pos": "n.", "meaning": "旗帜", "sentence": "This flag shows the race is over.", "sentence_cn": "这面旗帜表示比赛结束了。"}, {"word": "foolish", "pos": "adj.", "meaning": "愚蠢的", "sentence": "It was foolish to get close to the animal.", "sentence_cn": "靠近那只动物是愚蠢的。"}, {"word": "hold", "pos": "v.", "meaning": "握住；拿着", "sentence": "The lady is holding a bottle of water.", "sentence_cn": "那位女士正拿着一瓶水。"}, {"word": "matter", "pos": "v.", "meaning": "要紧；有关系", "sentence": "It does not matter which doctor you see. They are all good.", "sentence_cn": "你看哪位医生都没关系。他们都很好。"}, {"word": "round", "pos": "adj.", "meaning": "圆的", "sentence": "The colorful ball is round.", "sentence_cn": "这个彩色的球是圆的。"}, {"word": "take", "pos": "v.", "meaning": "带走；拿", "sentence": "I am going to take my little brother to a game.", "sentence_cn": "我要带我弟弟去看比赛。"}, {"word": "tie", "pos": "n.", "meaning": "平局", "sentence": "The game ended in a tie.", "sentence_cn": "比赛以平局结束。"}, {"word": "weather", "pos": "n.", "meaning": "天气", "sentence": "We did not have our baseball game because of bad weather.", "sentence_cn": "因为天气不好，我们没有举行棒球比赛。"}], "Book2_Unit3": [{"word": "art", "pos": "n.", "meaning": "艺术", "sentence": "One of my hobbies is making art for my parents.", "sentence_cn": "我的爱好之一是为父母创作艺术品。"}, {"word": "build", "pos": "v.", "meaning": "建造", "sentence": "He dreams about building houses for a job.", "sentence_cn": "他梦想着以建造房子为工作。"}, {"word": "choose", "pos": "v.", "meaning": "选择", "sentence": "They are choosing which color they like.", "sentence_cn": "他们正在选择自己喜欢的颜色。"}, {"word": "draw", "pos": "v.", "meaning": "画画", "sentence": "Martha is drawing a man walking with a flag.", "sentence_cn": "玛莎正在画一个拿着旗子走路的人。"}, {"word": "kid", "pos": "n.", "meaning": "孩子", "sentence": "The kid in the math class did not understand the lesson.", "sentence_cn": "数学课上的那个孩子没听懂这节课。"}, {"word": "paint", "pos": "v.", "meaning": "绘画", "sentence": "In the future, she hopes to paint great art for a job.", "sentence_cn": "将来，她希望能以绘画为工作。"}, {"word": "picture", "pos": "n.", "meaning": "图片；照片", "sentence": "These are pictures of my friends.", "sentence_cn": "这些是我朋友的照片。"}, {"word": "plant", "pos": "n.", "meaning": "植物", "sentence": "There are many plants on this hill.", "sentence_cn": "这座小山上有许多植物。"}, {"word": "repeat", "pos": "v.", "meaning": "重复", "sentence": "Can you please repeat the question?", "sentence_cn": "你能重复一下这个问题吗？"}, {"word": "wall", "pos": "n.", "meaning": "墙", "sentence": "Does it matter what I put on my bedroom walls?", "sentence_cn": "我在卧室墙上贴什么有关系吗？"}, {"word": "absent", "pos": "adj.", "meaning": "缺席的", "sentence": "Many students were absent because of bad weather.", "sentence_cn": "因为天气不好，许多学生缺席了。"}, {"word": "back", "pos": "n.", "meaning": "后面；背部", "sentence": "The people in the back of the room could not hear.", "sentence_cn": "房间后面的人听不见。"}, {"word": "fix", "pos": "v.", "meaning": "修理", "sentence": "Mike had to fix the window that his son broke.", "sentence_cn": "迈克不得不修理他儿子打破的窗户。"}, {"word": "land", "pos": "n.", "meaning": "陆地；土地", "sentence": "The land is really dry this year.", "sentence_cn": "今年土地非常干燥。"}, {"word": "pants", "pos": "n.", "meaning": "裤子", "sentence": "Bring another pair of pants with you.", "sentence_cn": "带上另一条裤子。"}, {"word": "picnic", "pos": "n.", "meaning": "野餐", "sentence": "They are having a picnic, and we are all invited.", "sentence_cn": "他们正在野餐，我们都被邀请了。"}, {"word": "river", "pos": "n.", "meaning": "河流", "sentence": "Hundreds of people come to surf in this river every year.", "sentence_cn": "每年有数百人来这条河冲浪。"}, {"word": "rock", "pos": "n.", "meaning": "岩石", "sentence": "Climbing rocks can be dangerous.", "sentence_cn": "攀岩可能很危险。"}, {"word": "school", "pos": "n.", "meaning": "学校", "sentence": "We sit on the stairs in front of our school.", "sentence_cn": "我们坐在学校前面的台阶上。"}, {"word": "wood", "pos": "n.", "meaning": "木头", "sentence": "They are using wood to build the house.", "sentence_cn": "他们正在用木头建造房子。"}], "Book2_Unit4": [{"word": "book", "pos": "n.", "meaning": "书", "sentence": "The book I am reading is about the future.", "sentence_cn": "我正在读的这本书是关于未来的。"}, {"word": "example", "pos": "n.", "meaning": "例子", "sentence": "This picture is an example of fine art.", "sentence_cn": "这幅画是美术的一个例子。"}, {"word": "glue", "pos": "n.", "meaning": "胶水", "sentence": "Rita fixed the picture with some glue.", "sentence_cn": "丽塔用一些胶水修好了这幅画。"}, {"word": "library", "pos": "n.", "meaning": "图书馆", "sentence": "The group did not have its meeting at the library today.", "sentence_cn": "这个小组今天没有在图书馆开会。"}, {"word": "mean", "pos": "adj.", "meaning": "刻薄的；吝啬的", "sentence": "That animal is really mean.", "sentence_cn": "那只动物真的很凶。"}, {"word": "piece", "pos": "n.", "meaning": "碎片；片", "sentence": "The broken piece of glass is dangerous.", "sentence_cn": "破碎的玻璃片很危险。"}, {"word": "plan", "pos": "n.", "meaning": "计划", "sentence": "The president talked about his plan in the speech.", "sentence_cn": "总统在演讲中谈到了他的计划。"}, {"word": "quiet", "pos": "adj.", "meaning": "安静的", "sentence": "It is important to be quiet in the library.", "sentence_cn": "在图书馆保持安静很重要。"}, {"word": "read", "pos": "v.", "meaning": "阅读", "sentence": "We are reading about a famous basketball player.", "sentence_cn": "我们正在读关于一位著名篮球运动员的文章。"}, {"word": "sound", "pos": "n.", "meaning": "声音", "sentence": "The river makes a loud sound when it rains.", "sentence_cn": "下雨时河水发出很大的声音。"}, {"word": "correct", "pos": "adj.", "meaning": "正确的", "sentence": "The kid repeated the correct answer.", "sentence_cn": "那个孩子重复了正确的答案。"}, {"word": "difference", "pos": "n.", "meaning": "区别；不同", "sentence": "What is the difference between drawing and painting a picture?", "sentence_cn": "画画和绘画之间有什么区别？"}, {"word": "difficult", "pos": "adj.", "meaning": "困难的", "sentence": "The hill was both dangerous and difficult to climb.", "sentence_cn": "这座山既危险又难以攀登。"}, {"word": "excellent", "pos": "adj.", "meaning": "极好的", "sentence": "The weather is excellent today.", "sentence_cn": "今天天气极好。"}, {"word": "guess", "pos": "v.", "meaning": "猜测", "sentence": "It is difficult to guess the right cup.", "sentence_cn": "很难猜对正确的杯子。"}, {"word": "museum", "pos": "n.", "meaning": "博物馆", "sentence": "I like going to this museum because it is not boring.", "sentence_cn": "我喜欢去这个博物馆，因为它不无聊。"}, {"word": "noise", "pos": "n.", "meaning": "噪音", "sentence": "The angry man made a lot of noise.", "sentence_cn": "那个生气的男人制造了很多噪音。"}, {"word": "relax", "pos": "v.", "meaning": "放松", "sentence": "Try to relax during the weekend.", "sentence_cn": "周末试着放松一下。"}, {"word": "science", "pos": "n.", "meaning": "科学", "sentence": "We studied the science of plants today.", "sentence_cn": "今天我们学习了植物科学。"}, {"word": "tomorrow", "pos": "n.", "meaning": "明天", "sentence": "Martin will be absent from school tomorrow.", "sentence_cn": "马丁明天将缺课。"}], "Book2_Unit5": [{"word": "close", "pos": "adj.", "meaning": "近的；亲密的", "sentence": "The baby stays close to his mother.", "sentence_cn": "婴儿待在妈妈身边。"}, {"word": "grass", "pos": "n.", "meaning": "草地", "sentence": "I enjoy relaxing on the grass.", "sentence_cn": "我喜欢在草地上放松。"}, {"word": "hat", "pos": "n.", "meaning": "帽子", "sentence": "She wears her hat everywhere.", "sentence_cn": "她到处都戴着帽子。"}, {"word": "lake", "pos": "n.", "meaning": "湖", "sentence": "We are having a picnic by the lake tomorrow.", "sentence_cn": "我们明天要在湖边野餐。"}, {"word": "moon", "pos": "n.", "meaning": "月亮", "sentence": "What is the difference between the sun and the moon?", "sentence_cn": "太阳和月亮有什么区别？"}, {"word": "mountain", "pos": "n.", "meaning": "山", "sentence": "There is a river by the mountain.", "sentence_cn": "山边有一条河。"}, {"word": "smell", "pos": "v.", "meaning": "闻；嗅", "sentence": "She is able to smell the beautiful flower.", "sentence_cn": "她能闻到这朵美丽的花。"}, {"word": "soap", "pos": "n.", "meaning": "肥皂", "sentence": "The kid used soap to wash his hands.", "sentence_cn": "那个孩子用肥皂洗手。"}, {"word": "toilet", "pos": "n.", "meaning": "厕所", "sentence": "I do not like using the toilets at school.", "sentence_cn": "我不喜欢在学校上厕所。"}, {"word": "wet", "pos": "adj.", "meaning": "湿的", "sentence": "The boy got wet from the water.", "sentence_cn": "那个男孩被水弄湿了。"}, {"word": "boot", "pos": "n.", "meaning": "靴子", "sentence": "I found an excellent pair of boots.", "sentence_cn": "我发现了一双极好的靴子。"}, {"word": "deep", "pos": "adj.", "meaning": "深的", "sentence": "They made a deep hole into the side of the hill.", "sentence_cn": "他们在山腰上挖了一个深洞。"}, {"word": "farm", "pos": "n.", "meaning": "农场", "sentence": "Our plan is to visit a farm tomorrow.", "sentence_cn": "我们计划明天去参观农场。"}, {"word": "glove", "pos": "n.", "meaning": "手套", "sentence": "You should wear gloves when working with wood.", "sentence_cn": "处理木头时你应该戴手套。"}, {"word": "house", "pos": "n.", "meaning": "房子", "sentence": "Will you repeat the directions to your house?", "sentence_cn": "你能重复一下去你家的路线吗？"}, {"word": "sunny", "pos": "adj.", "meaning": "晴朗的", "sentence": "I guess it will be sunny tomorrow.", "sentence_cn": "我猜明天会是晴天。"}, {"word": "top", "pos": "n.", "meaning": "顶部", "sentence": "The man ran to the top of the hill.", "sentence_cn": "那个男人跑到了山顶。"}, {"word": "well", "pos": "n.", "meaning": "井", "sentence": "The farm has a well where people take water to use.", "sentence_cn": "农场里有一口井，人们从那里取水使用。"}, {"word": "wide", "pos": "adj.", "meaning": "宽的", "sentence": "The river is too wide to swim across.", "sentence_cn": "这条河太宽了，游不过去。"}, {"word": "windy", "pos": "adj.", "meaning": "有风的", "sentence": "It is too windy to wear a hat today.", "sentence_cn": "今天风太大了，不能戴帽子。"}], "Book2_Unit6": [{"word": "care", "pos": "v.", "meaning": "照顾；关心", "sentence": "She cares for her puppy.", "sentence_cn": "她照顾她的小狗。"}, {"word": "die", "pos": "v.", "meaning": "死亡", "sentence": "The grass in the yard died in the winter.", "sentence_cn": "院子里的草在冬天枯死了。"}, {"word": "empty", "pos": "adj.", "meaning": "空的", "sentence": "The pool is empty. It does not have water.", "sentence_cn": "游泳池是空的。里面没有水。"}, {"word": "feed", "pos": "v.", "meaning": "喂养", "sentence": "We cannot feed the animals in the mountains.", "sentence_cn": "我们不能喂山里的动物。"}, {"word": "health", "pos": "n.", "meaning": "健康", "sentence": "For your health, use soap to clean your body.", "sentence_cn": "为了你的健康，用肥皂清洁身体。"}, {"word": "heart", "pos": "n.", "meaning": "心脏", "sentence": "We are learning about how the heart works in science class.", "sentence_cn": "我们正在科学课上学习心脏是如何工作的。"}, {"word": "large", "pos": "adj.", "meaning": "大的", "sentence": "Our house is very large and close to a beautiful lake.", "sentence_cn": "我们的房子很大，靠近一个美丽的湖。"}, {"word": "remember", "pos": "v.", "meaning": "记得", "sentence": "He could not remember how to get to the farm.", "sentence_cn": "他不记得怎么去农场了。"}, {"word": "rule", "pos": "n.", "meaning": "规则", "sentence": "One of the library rules is, 'Be quiet.'", "sentence_cn": "图书馆的规定之一是'保持安静'。"}, {"word": "zoo", "pos": "n.", "meaning": "动物园", "sentence": "Our school visited a museum and the zoo this year.", "sentence_cn": "今年我们学校参观了博物馆和动物园。"}, {"word": "dirty", "pos": "adj.", "meaning": "脏的", "sentence": "Wash that dirty toilet with soap and water.", "sentence_cn": "用肥皂和水清洗那个脏厕所。"}, {"word": "fill", "pos": "v.", "meaning": "填满", "sentence": "Fill these empty bookshelves with your books.", "sentence_cn": "用你的书填满这些空书架。"}, {"word": "fresh", "pos": "adj.", "meaning": "新鲜的", "sentence": "I make a fresh cup of tea every morning.", "sentence_cn": "我每天早上泡一杯新鲜的茶。"}, {"word": "frog", "pos": "n.", "meaning": "青蛙", "sentence": "A lot of frogs live by this lake.", "sentence_cn": "很多青蛙住在这个湖边。"}, {"word": "girl", "pos": "n.", "meaning": "女孩", "sentence": "There is a mean girl in my art class.", "sentence_cn": "我的美术班上有个刻薄的女孩。"}, {"word": "glass", "pos": "n.", "meaning": "玻璃；杯子", "sentence": "Use this glass for your juice.", "sentence_cn": "用这个杯子喝果汁。"}, {"word": "hungry", "pos": "adj.", "meaning": "饥饿的", "sentence": "The boy is hungry and ready to eat.", "sentence_cn": "那个男孩饿了，准备吃饭。"}, {"word": "spoon", "pos": "n.", "meaning": "勺子", "sentence": "The baby uses a spoon to feed himself.", "sentence_cn": "那个婴儿用勺子自己吃饭。"}, {"word": "thirsty", "pos": "adj.", "meaning": "口渴的", "sentence": "Did you remember to bring water so you are not thirsty?", "sentence_cn": "你记得带水了吗，这样你就不会口渴了。"}, {"word": "window", "pos": "n.", "meaning": "窗户", "sentence": "I can see trees through the window.", "sentence_cn": "我能透过窗户看到树。"}], "Book2_Unit7": [{"word": "ago", "pos": "adv.", "meaning": "以前", "sentence": "This is an example of a painting from long ago.", "sentence_cn": "这是一幅很久以前画的画的例子。"}, {"word": "agree", "pos": "v.", "meaning": "同意", "sentence": "They all agreed with the plan.", "sentence_cn": "他们都同意这个计划。"}, {"word": "beach", "pos": "n.", "meaning": "海滩", "sentence": "We went to a quiet beach to relax.", "sentence_cn": "我们去了一个安静的海滩放松。"}, {"word": "cap", "pos": "n.", "meaning": "帽子", "sentence": "I remembered to bring my cap with me.", "sentence_cn": "我记得带上我的帽子。"}, {"word": "fat", "pos": "adj.", "meaning": "胖的", "sentence": "We need to think about our fat cat's health.", "sentence_cn": "我们需要考虑我们胖猫的健康。"}, {"word": "sea", "pos": "n.", "meaning": "大海", "sentence": "Most of the water in the sea is very deep.", "sentence_cn": "大海里的大部分水都很深。"}, {"word": "throw", "pos": "v.", "meaning": "扔", "sentence": "It can be difficult for a small child to throw a ball.", "sentence_cn": "对小孩子来说扔球可能很难。"}, {"word": "towel", "pos": "n.", "meaning": "毛巾", "sentence": "The boy dries himself with a towel after swimming.", "sentence_cn": "那个男孩游泳后用毛巾擦干身体。"}, {"word": "trip", "pos": "n.", "meaning": "旅行", "sentence": "The man went on a trip to Europe with his friend.", "sentence_cn": "那个男人和他的朋友去欧洲旅行了。"}, {"word": "vacation", "pos": "n.", "meaning": "假期", "sentence": "The family needed gloves and hats on their vacation.", "sentence_cn": "这家人度假时需要手套和帽子。"}, {"word": "ball", "pos": "n.", "meaning": "球", "sentence": "Is this the correct way to hit a golf ball?", "sentence_cn": "这是打高尔夫球的正确方式吗？"}, {"word": "basket", "pos": "n.", "meaning": "篮子", "sentence": "Laura put the basket of fresh apples on the table.", "sentence_cn": "劳拉把一篮新鲜苹果放在桌子上。"}, {"word": "boat", "pos": "n.", "meaning": "船", "sentence": "He enjoys taking his boat out on weekends.", "sentence_cn": "他喜欢在周末驾船出去。"}, {"word": "holiday", "pos": "n.", "meaning": "节日；假日", "sentence": "Valentine's Day is a holiday when people give cards to their friends.", "sentence_cn": "情人节是人们给朋友送卡片的节日。"}, {"word": "lamp", "pos": "n.", "meaning": "灯", "sentence": "Gina needed a lamp to study at night.", "sentence_cn": "吉娜需要一盏灯在晚上学习。"}, {"word": "last", "pos": "v.", "meaning": "持续", "sentence": "The baseball game lasted all afternoon.", "sentence_cn": "棒球比赛持续了整整一下午。"}, {"word": "past", "pos": "n.", "meaning": "过去", "sentence": "In the past, people with lots of money lived in castles.", "sentence_cn": "在过去，有钱的人住在城堡里。"}, {"word": "ship", "pos": "n.", "meaning": "船", "sentence": "We traveled by ship for our vacation.", "sentence_cn": "我们乘船去旅行度假。"}, {"word": "spend", "pos": "v.", "meaning": "花费", "sentence": "People need to spend money almost every day.", "sentence_cn": "人们几乎每天都需要花钱。"}, {"word": "west", "pos": "n.", "meaning": "西；西方", "sentence": "Lisa will be traveling west during her vacation.", "sentence_cn": "丽莎将在假期期间向西旅行。"}], "Book2_Unit8": [{"word": "beef", "pos": "n.", "meaning": "牛肉", "sentence": "Eating too much beef might make you fat.", "sentence_cn": "吃太多牛肉可能会让你发胖。"}, {"word": "best", "pos": "adj.", "meaning": "最好的", "sentence": "Alex is Jonah's best friend. They do everything together.", "sentence_cn": "亚历克斯是乔纳最好的朋友。他们一起做所有事情。"}, {"word": "bread", "pos": "n.", "meaning": "面包", "sentence": "You can eat some bread if you are hungry.", "sentence_cn": "如果你饿了，可以吃一些面包。"}, {"word": "free", "pos": "adj.", "meaning": "免费的；自由的", "sentence": "She agreed to give me a free kitten.", "sentence_cn": "她同意给我一只免费的小猫。"}, {"word": "hurry", "pos": "v.", "meaning": "匆忙", "sentence": "He hurried to work because he got up late.", "sentence_cn": "他因为起晚了而匆忙去上班。"}, {"word": "join", "pos": "v.", "meaning": "加入", "sentence": "She was joining her friends for a short vacation.", "sentence_cn": "她正和朋友们一起度短假。"}, {"word": "middle", "pos": "n.", "meaning": "中间", "sentence": "The tall girl is standing in the middle of the group.", "sentence_cn": "那个高个子女孩站在人群中间。"}, {"word": "pair", "pos": "n.", "meaning": "一双；一对", "sentence": "I was wearing my new pair of shoes at school.", "sentence_cn": "我在学校穿着我的新鞋。"}, {"word": "pick", "pos": "v.", "meaning": "采摘；挑选", "sentence": "Annie was picking fresh flowers for her mom.", "sentence_cn": "安妮正在为妈妈采摘鲜花。"}, {"word": "store", "pos": "n.", "meaning": "商店", "sentence": "Liz spent a lot of money at the store.", "sentence_cn": "莉兹在商店花了很多钱。"}, {"word": "bag", "pos": "n.", "meaning": "袋子", "sentence": "They filled the bag with a lot of good food.", "sentence_cn": "他们在袋子里装了很多好吃的食物。"}, {"word": "dear", "pos": "adj.", "meaning": "亲爱的", "sentence": "'Dear Diary, I like the new pair of pants I got.'", "sentence_cn": "'亲爱的日记，我喜欢我买的新裤子。'"}, {"word": "live", "pos": "v.", "meaning": "居住", "sentence": "The family lives in a nice house by the sea.", "sentence_cn": "这家人住在海边一所漂亮的房子里。"}, {"word": "low", "pos": "adj.", "meaning": "低的", "sentence": "He is sitting in front of the low bookshelf.", "sentence_cn": "他坐在低矮的书架前。"}, {"word": "month", "pos": "n.", "meaning": "月", "sentence": "We are going on a vacation to the beach this month.", "sentence_cn": "这个月我们要去海滩度假。"}, {"word": "name", "pos": "n.", "meaning": "名字", "sentence": "Our dog's name is Willard.", "sentence_cn": "我们的狗叫威拉德。"}, {"word": "phone", "pos": "n.", "meaning": "电话", "sentence": "She remembered to call her mom on the phone.", "sentence_cn": "她记得给妈妈打电话。"}, {"word": "rice", "pos": "n.", "meaning": "米饭", "sentence": "I can smell the fresh, cooked rice from the other room.", "sentence_cn": "我能从另一个房间闻到新鲜米饭的香味。"}, {"word": "rich", "pos": "adj.", "meaning": "富有的", "sentence": "The rich man took a plane to New York.", "sentence_cn": "那个富人乘飞机去了纽约。"}, {"word": "size", "pos": "n.", "meaning": "尺寸", "sentence": "The man sells hats in many different sizes.", "sentence_cn": "这个男人卖各种尺寸的帽子。"}], "Book2_Unit9": [{"word": "birth", "pos": "n.", "meaning": "出生", "sentence": "He was holding his baby after its birth.", "sentence_cn": "他在孩子出生后抱着宝宝。"}, {"word": "clothes", "pos": "n.", "meaning": "衣服", "sentence": "She is picking clothes for her trip to the beach.", "sentence_cn": "她正在为海滩之旅挑选衣服。"}, {"word": "cost", "pos": "v.", "meaning": "花费", "sentence": "The new car costs a lot of money.", "sentence_cn": "这辆新车花了很多钱。"}, {"word": "hide", "pos": "v.", "meaning": "躲藏", "sentence": "Mark was hiding under the bed with his mom's computer.", "sentence_cn": "马克正拿着妈妈的电脑躲在床底下。"}, {"word": "pet", "pos": "n.", "meaning": "宠物", "sentence": "She thinks Rover is the best pet in the world.", "sentence_cn": "她认为罗弗是世界上最好的宠物。"}, {"word": "puppy", "pos": "n.", "meaning": "小狗", "sentence": "Sleep is important for the health of a puppy.", "sentence_cn": "睡眠对小狗的健康很重要。"}, {"word": "soft", "pos": "adj.", "meaning": "柔软的", "sentence": "She was resting on a soft pillow.", "sentence_cn": "她正靠在柔软的枕头上休息。"}, {"word": "touch", "pos": "v.", "meaning": "触摸", "sentence": "Touch the phone to make a call.", "sentence_cn": "触摸手机拨打电话。"}, {"word": "weigh", "pos": "v.", "meaning": "称重", "sentence": "She always weighs herself in the morning.", "sentence_cn": "她总是在早上称体重。"}, {"word": "wish", "pos": "v.", "meaning": "希望", "sentence": "He remembered to make a wish for his birthday.", "sentence_cn": "他记得为生日许愿。"}, {"word": "age", "pos": "n.", "meaning": "年龄", "sentence": "They do a lot of activities for people of their age.", "sentence_cn": "他们为同龄人做了很多活动。"}, {"word": "bath", "pos": "n.", "meaning": "洗澡", "sentence": "The dirty dog does not want to take a bath.", "sentence_cn": "那只脏狗不想洗澡。"}, {"word": "bright", "pos": "adj.", "meaning": "聪明的；明亮的", "sentence": "Everyone agrees that Mike is a bright person.", "sentence_cn": "大家都同意迈克是个聪明的人。"}, {"word": "brush", "pos": "v.", "meaning": "刷", "sentence": "The girl was brushing her hair before going to bed.", "sentence_cn": "那个女孩睡觉前正在梳头。"}, {"word": "lose", "pos": "v.", "meaning": "丢失", "sentence": "Min lost her ring yesterday, but she found it today.", "sentence_cn": "敏昨天丢了戒指，但今天找到了。"}, {"word": "second", "pos": "n.", "meaning": "秒", "sentence": "You only have a few seconds to finish.", "sentence_cn": "你只有几秒钟完成。"}, {"word": "tell", "pos": "v.", "meaning": "告诉", "sentence": "The doctor was telling the man about his heart.", "sentence_cn": "医生正在告诉那个男人关于他的心脏情况。"}, {"word": "test", "pos": "n.", "meaning": "测试", "sentence": "Write your name at the top of your test paper.", "sentence_cn": "把你的名字写在试卷顶部。"}, {"word": "thank", "pos": "v.", "meaning": "感谢", "sentence": "Nina thanked her brother for the gift.", "sentence_cn": "尼娜感谢她哥哥的礼物。"}, {"word": "ugly", "pos": "adj.", "meaning": "丑陋的", "sentence": "We saw some ugly birds at the zoo.", "sentence_cn": "我们在动物园看到了一些丑陋的鸟。"}], "Book2_Unit10": [{"word": "calendar", "pos": "n.", "meaning": "日历", "sentence": "I marked the day of the test on the calendar.", "sentence_cn": "我在日历上标记了考试日期。"}, {"word": "dance", "pos": "v.", "meaning": "跳舞", "sentence": "They were wearing nice clothes and dancing.", "sentence_cn": "他们穿着漂亮的衣服跳舞。"}, {"word": "date", "pos": "n.", "meaning": "日期", "sentence": "The date of the trip is the 28th.", "sentence_cn": "旅行的日期是28号。"}, {"word": "idea", "pos": "n.", "meaning": "主意", "sentence": "Taking notes was the best idea Molly had.", "sentence_cn": "做笔记是莫莉最好的主意。"}, {"word": "luck", "pos": "n.", "meaning": "运气", "sentence": "Winning a free pair of shoes was good luck.", "sentence_cn": "赢得一双免费鞋子是好运。"}, {"word": "paper", "pos": "n.", "meaning": "纸", "sentence": "Ava was writing her answers on the paper.", "sentence_cn": "艾娃正在纸上写答案。"}, {"word": "post", "pos": "v.", "meaning": "张贴", "sentence": "Last month, Margo posted a sign asking for help.", "sentence_cn": "上个月，玛戈贴了一个求助的告示。"}, {"word": "receive", "pos": "v.", "meaning": "收到", "sentence": "The girl was receiving a shot from the doctor.", "sentence_cn": "那个女孩正在接受医生的注射。"}, {"word": "toy", "pos": "n.", "meaning": "玩具", "sentence": "Ray was playing with his toy two hours ago.", "sentence_cn": "雷两小时前还在玩他的玩具。"}, {"word": "week", "pos": "n.", "meaning": "周", "sentence": "My summer vacation begins next week.", "sentence_cn": "我的暑假下周开始。"}, {"word": "clear", "pos": "v.", "meaning": "清理", "sentence": "She clears the table after lunch.", "sentence_cn": "她午饭后清理桌子。"}, {"word": "continue", "pos": "v.", "meaning": "继续", "sentence": "My aunt continues to work on weekends.", "sentence_cn": "我阿姨周末继续工作。"}, {"word": "fan", "pos": "n.", "meaning": "粉丝；风扇", "sentence": "They are all fans of the best team in the game.", "sentence_cn": "他们都是比赛中最好的队伍的粉丝。"}, {"word": "favorite", "pos": "adj.", "meaning": "最喜欢的", "sentence": "She was wearing her favorite clothes at the party.", "sentence_cn": "她在聚会上穿着她最喜欢的衣服。"}, {"word": "floor", "pos": "n.", "meaning": "地板", "sentence": "The puppy was resting on the floor.", "sentence_cn": "小狗正在地板上休息。"}, {"word": "polite", "pos": "adj.", "meaning": "有礼貌的", "sentence": "The polite girl thanked her mother for the food.", "sentence_cn": "那个有礼貌的女孩感谢妈妈的食物。"}, {"word": "practice", "pos": "v.", "meaning": "练习", "sentence": "Hector joined one of the best soccer teams. They practice often.", "sentence_cn": "赫克托加入了一支最好的足球队。他们经常练习。"}, {"word": "present", "pos": "v.", "meaning": "赠送；呈现", "sentence": "Ian presented the keys to the car's new owner.", "sentence_cn": "伊恩把车钥匙交给了新车主。"}, {"word": "train", "pos": "v.", "meaning": "训练", "sentence": "Mario was training hard for the Olympics.", "sentence_cn": "马里奥正在为奥运会刻苦训练。"}, {"word": "turn", "pos": "n.", "meaning": "轮流", "sentence": "The boys each take a turn during their game.", "sentence_cn": "男孩们在游戏中轮流进行。"}], "Book2_Unit11": [{"word": "balloon", "pos": "n.", "meaning": "气球", "sentence": "There were many balloons at Ray's party last week.", "sentence_cn": "上周雷的派对上有很多气球。"}, {"word": "bridge", "pos": "n.", "meaning": "桥", "sentence": "This bridge is free for everyone to cross.", "sentence_cn": "这座桥对所有人免费开放通行。"}, {"word": "busy", "pos": "adj.", "meaning": "忙碌的", "sentence": "He told his boss that he was busy on that date.", "sentence_cn": "他告诉老板那天他很忙。"}, {"word": "company", "pos": "n.", "meaning": "公司；陪伴", "sentence": "They should be polite when their parents have company.", "sentence_cn": "当父母有客人时，他们应该有礼貌。"}, {"word": "congratulate", "pos": "v.", "meaning": "祝贺", "sentence": "The woman congratulated the girl.", "sentence_cn": "那位女士祝贺了那个女孩。"}, {"word": "delicious", "pos": "adj.", "meaning": "美味的", "sentence": "She presented some delicious cakes to the teacher.", "sentence_cn": "她给老师送了一些美味的蛋糕。"}, {"word": "fight", "pos": "v.", "meaning": "打架", "sentence": "The kids were fighting over a toy last night.", "sentence_cn": "昨晚孩子们为了玩具打架。"}, {"word": "old", "pos": "adj.", "meaning": "老的；旧的", "sentence": "I put my favorite food in this old basket.", "sentence_cn": "我把最喜欢的食物放在这个旧篮子里。"}, {"word": "restaurant", "pos": "n.", "meaning": "餐厅", "sentence": "The beef and chicken at this restaurant are delicious.", "sentence_cn": "这家餐厅的牛肉和鸡肉很美味。"}, {"word": "surprise", "pos": "n.", "meaning": "惊喜", "sentence": "The party was a surprise. She had no idea about it.", "sentence_cn": "这个派对是个惊喜。她完全不知道。"}, {"word": "gentleman", "pos": "n.", "meaning": "绅士", "sentence": "The gentleman opened the door for me.", "sentence_cn": "那位绅士为我开门。"}, {"word": "handsome", "pos": "adj.", "meaning": "英俊的", "sentence": "The handsome man was working on his computer.", "sentence_cn": "那个英俊的男人正在用他的电脑工作。"}, {"word": "husband", "pos": "n.", "meaning": "丈夫", "sentence": "Her husband was very happy.", "sentence_cn": "她的丈夫非常高兴。"}, {"word": "interested", "pos": "adj.", "meaning": "感兴趣的", "sentence": "The boy was interested in the toys.", "sentence_cn": "那个男孩对玩具感兴趣。"}, {"word": "king", "pos": "n.", "meaning": "国王", "sentence": "The king's favorite color is red.", "sentence_cn": "国王最喜欢的颜色是红色。"}, {"word": "queen", "pos": "n.", "meaning": "女王", "sentence": "The queen wears beautiful clothes every day.", "sentence_cn": "女王每天都穿着漂亮的衣服。"}, {"word": "skirt", "pos": "n.", "meaning": "裙子", "sentence": "Katy wanted to buy another pink skirt from the store.", "sentence_cn": "凯蒂想从商店再买一条粉色裙子。"}, {"word": "wake", "pos": "v.", "meaning": "醒来", "sentence": "Stacy needed to wake up early this morning.", "sentence_cn": "史黛西今天早上需要早起。"}, {"word": "wife", "pos": "n.", "meaning": "妻子", "sentence": "Greg loves his wife's cooking.", "sentence_cn": "格雷格喜欢他妻子的烹饪。"}, {"word": "woman", "pos": "n.", "meaning": "女人", "sentence": "The woman has an important job.", "sentence_cn": "这个女人有一份重要的工作。"}], "Book2_Unit12": [{"word": "arrive", "pos": "v.", "meaning": "到达", "sentence": "The woman and her husband arrived at the airport.", "sentence_cn": "那个女人和她的丈夫到达了机场。"}, {"word": "car", "pos": "n.", "meaning": "汽车", "sentence": "Thank you for buying me this car.", "sentence_cn": "谢谢你给我买这辆车。"}, {"word": "forget", "pos": "v.", "meaning": "忘记", "sentence": "Chris forgot that he had company for dinner.", "sentence_cn": "克里斯忘记他有客人来吃晚饭了。"}, {"word": "gate", "pos": "n.", "meaning": "大门", "sentence": "The gate to the garden is beautiful.", "sentence_cn": "花园的大门很漂亮。"}, {"word": "grand", "pos": "adj.", "meaning": "宏伟的", "sentence": "The king and queen stayed in a grand hotel.", "sentence_cn": "国王和女王住在一座宏伟的酒店里。"}, {"word": "line", "pos": "n.", "meaning": "队伍；线", "sentence": "The people in the line have to wait their turn.", "sentence_cn": "排队的人必须等待轮到他们。"}, {"word": "subway", "pos": "n.", "meaning": "地铁", "sentence": "The subway was not very busy yesterday.", "sentence_cn": "昨天地铁不是很忙。"}, {"word": "theater", "pos": "n.", "meaning": "剧院", "sentence": "They were watching a movie in a theater.", "sentence_cn": "他们正在剧院看电影。"}, {"word": "thousand", "pos": "n.", "meaning": "千", "sentence": "The bridge is one thousand years old.", "sentence_cn": "这座桥有一千年的历史了。"}, {"word": "win", "pos": "v.", "meaning": "赢", "sentence": "The team won because they trained and practiced a lot.", "sentence_cn": "这个队赢了，因为他们训练了很多。"}, {"word": "cloudy", "pos": "adj.", "meaning": "多云的", "sentence": "The sky over the lake was cloudy and dark.", "sentence_cn": "湖上的天空多云而昏暗。"}, {"word": "north", "pos": "n.", "meaning": "北方", "sentence": "They will travel north on their trip this week.", "sentence_cn": "他们本周旅行将向北走。"}, {"word": "office", "pos": "n.", "meaning": "办公室", "sentence": "We work in an office above a busy restaurant.", "sentence_cn": "我们在一家繁忙餐厅楼上的办公室工作。"}, {"word": "plate", "pos": "n.", "meaning": "盘子", "sentence": "Bill needed to clear the plates from the table.", "sentence_cn": "比尔需要清理桌子上的盘子。"}, {"word": "police", "pos": "n.", "meaning": "警察", "sentence": "The police were watching some people.", "sentence_cn": "警察正在监视一些人。"}, {"word": "south", "pos": "n.", "meaning": "南方", "sentence": "If you go south of the US, you will be in Mexico.", "sentence_cn": "如果你去美国南部，你就会到墨西哥。"}, {"word": "square", "pos": "n.", "meaning": "广场", "sentence": "Our favorite place in the city is this square.", "sentence_cn": "我们在城里最喜欢的地方是这座广场。"}, {"word": "street", "pos": "n.", "meaning": "街道", "sentence": "The street is not very busy at this time.", "sentence_cn": "这条街这个时候不是很忙。"}, {"word": "tonight", "pos": "n.", "meaning": "今晚", "sentence": "Lori's husband is working late tonight.", "sentence_cn": "洛丽的丈夫今晚工作到很晚。"}, {"word": "umbrella", "pos": "n.", "meaning": "雨伞", "sentence": "They shared an umbrella to keep dry.", "sentence_cn": "他们共用一把雨伞来保持干燥。"}], "Book3_Unit1": [{"word": "burn", "pos": "v.", "meaning": "燃烧", "sentence": "The paper is burning.", "sentence_cn": "纸正在燃烧。"}, {"word": "exchange", "pos": "v.", "meaning": "交换", "sentence": "The gentlemen exchange phone numbers.", "sentence_cn": "绅士们交换了电话号码。"}, {"word": "introduce", "pos": "v.", "meaning": "介绍", "sentence": "Jane's husband introduces her to his handsome friend.", "sentence_cn": "简的丈夫把她介绍给他英俊的朋友。"}, {"word": "offer", "pos": "v.", "meaning": "提供", "sentence": "Paul offered the man money, but he was not interested.", "sentence_cn": "保罗给那个男人钱，但他不感兴趣。"}, {"word": "pardon", "pos": "v.", "meaning": "原谅；请再说一遍", "sentence": "'Pardon me. Can you tell me how to get to the subway?'", "sentence_cn": "'请再说一遍。你能告诉我怎么去地铁吗？'"}, {"word": "popular", "pos": "adj.", "meaning": "受欢迎的", "sentence": "This busy street is a popular place to shop.", "sentence_cn": "这条繁忙的街道是一个受欢迎的购物场所。"}, {"word": "prepare", "pos": "v.", "meaning": "准备", "sentence": "The cooks prepare a delicious meal in the restaurant.", "sentence_cn": "厨师们在餐厅里准备了一顿美味的饭菜。"}, {"word": "reason", "pos": "n.", "meaning": "原因", "sentence": "He did not have a reason for arriving late at the theater.", "sentence_cn": "他没有迟到剧院的原因。"}, {"word": "shake", "pos": "v.", "meaning": "握手；摇动", "sentence": "The woman shakes Sue's hand and congratulates her.", "sentence_cn": "那个女人和苏握手并祝贺她。"}, {"word": "shy", "pos": "adj.", "meaning": "害羞的", "sentence": "The young boy is very shy.", "sentence_cn": "那个小男孩很害羞。"}, {"word": "bell", "pos": "n.", "meaning": "铃", "sentence": "The bell rings when the gate opens.", "sentence_cn": "门打开时铃响了。"}, {"word": "block", "pos": "n.", "meaning": "街区", "sentence": "There are many houses on each block.", "sentence_cn": "每个街区都有很多房子。"}, {"word": "borrow", "pos": "v.", "meaning": "借", "sentence": "Thank you for letting me borrow your math book this week.", "sentence_cn": "谢谢你这周借给我你的数学书。"}, {"word": "bowl", "pos": "n.", "meaning": "碗", "sentence": "I had a big bowl of soup for lunch.", "sentence_cn": "我午餐吃了一大碗汤。"}, {"word": "confuse", "pos": "v.", "meaning": "使困惑", "sentence": "Math confuses Scott.", "sentence_cn": "数学让斯科特感到困惑。"}, {"word": "knock", "pos": "v.", "meaning": "敲", "sentence": "She continued to knock on the door.", "sentence_cn": "她继续敲门。"}, {"word": "result", "pos": "n.", "meaning": "结果", "sentence": "John's doctor was very happy with his test results.", "sentence_cn": "约翰的医生对他的测试结果非常满意。"}, {"word": "seem", "pos": "v.", "meaning": "似乎", "sentence": "They seem to be enjoying the funny movie tonight.", "sentence_cn": "他们似乎在享受今晚这部有趣的电影。"}, {"word": "smart", "pos": "adj.", "meaning": "聪明的", "sentence": "Chris is a very smart boy.", "sentence_cn": "克里斯是一个非常聪明的男孩。"}, {"word": "subject", "pos": "n.", "meaning": "科目", "sentence": "English is the most popular subject at my school.", "sentence_cn": "英语是我学校最受欢迎的科目。"}], "Book3_Unit2": [{"word": "active", "pos": "adj.", "meaning": "活跃的", "sentence": "Children are very active and like to run and jump.", "sentence_cn": "孩子们非常活跃，喜欢跑和跳。"}, {"word": "believe", "pos": "v.", "meaning": "相信", "sentence": "He believes he is a smart boy.", "sentence_cn": "他相信自己是个聪明的男孩。"}, {"word": "environment", "pos": "n.", "meaning": "环境", "sentence": "Fresh air is a good reason to live in a clean environment.", "sentence_cn": "新鲜空气是生活在干净环境中的好理由。"}, {"word": "forest", "pos": "n.", "meaning": "森林", "sentence": "The forest seems to be burning.", "sentence_cn": "森林似乎在燃烧。"}, {"word": "human", "pos": "n.", "meaning": "人类", "sentence": "The old bridge was built by humans a long time ago.", "sentence_cn": "这座古老的桥是很久以前由人类建造的。"}, {"word": "hunt", "pos": "v.", "meaning": "打猎", "sentence": "Some people in North America like to hunt.", "sentence_cn": "北美的一些人喜欢打猎。"}, {"word": "path", "pos": "n.", "meaning": "小路", "sentence": "Both paths take you to the gate of the park.", "sentence_cn": "两条小路都通向公园的大门。"}, {"word": "safe", "pos": "adj.", "meaning": "安全的", "sentence": "The gentleman stands in a safe place away from the subway.", "sentence_cn": "那位绅士站在远离地铁的安全地方。"}, {"word": "service", "pos": "n.", "meaning": "服务", "sentence": "The new restaurant has delicious food and great service.", "sentence_cn": "这家新餐厅有美味的食物和优质的服务。"}, {"word": "wild", "pos": "adj.", "meaning": "野生的", "sentence": "Africa is a popular place to see wild animals.", "sentence_cn": "非洲是一个看野生动物的热门地方。"}, {"word": "area", "pos": "n.", "meaning": "地区", "sentence": "The people living in this area are very poor.", "sentence_cn": "住在这个地区的人很穷。"}, {"word": "choice", "pos": "n.", "meaning": "选择", "sentence": "It is your choice. Do you want to go north or south?", "sentence_cn": "这是你的选择。你想去北边还是南边？"}, {"word": "enter", "pos": "v.", "meaning": "进入", "sentence": "She enters through the front gate.", "sentence_cn": "她从前门进入。"}, {"word": "important", "pos": "adj.", "meaning": "重要的", "sentence": "The king is the most important piece in the game.", "sentence_cn": "国王是棋局中最重要的棋子。"}, {"word": "lie", "pos": "v.", "meaning": "躺", "sentence": "She lies in the grass and looks up at the sky.", "sentence_cn": "她躺在草地上仰望天空。"}, {"word": "mad", "pos": "adj.", "meaning": "生气的", "sentence": "The woman is mad because someone hit her car.", "sentence_cn": "那个女人很生气，因为有人撞了她的车。"}, {"word": "nature", "pos": "n.", "meaning": "自然", "sentence": "She likes to take pictures of nature.", "sentence_cn": "她喜欢拍大自然的照片。"}, {"word": "protect", "pos": "v.", "meaning": "保护", "sentence": "The umbrella protects the people from the hot sun.", "sentence_cn": "伞保护人们免受烈日暴晒。"}, {"word": "shout", "pos": "v.", "meaning": "喊叫", "sentence": "The shy boy surprised everyone by shouting.", "sentence_cn": "那个害羞的男孩大喊一声，让所有人都惊讶了。"}, {"word": "usually", "pos": "adv.", "meaning": "通常", "sentence": "People usually shake hands when they introduce themselves.", "sentence_cn": "人们自我介绍时通常会握手。"}], "Book3_Unit3": [{"word": "amazing", "pos": "adj.", "meaning": "令人惊奇的", "sentence": "It is amazing that humans walked on the moon.", "sentence_cn": "人类在月球上行走真是令人惊奇。"}, {"word": "attend", "pos": "v.", "meaning": "参加", "sentence": "Many students attend this class on protecting the environment.", "sentence_cn": "许多学生参加这门关于保护环境的课。"}, {"word": "event", "pos": "n.", "meaning": "活动", "sentence": "There is usually a fun event at the park on a holiday.", "sentence_cn": "节假日公园通常会有有趣的活动。"}, {"word": "express", "pos": "v.", "meaning": "表达", "sentence": "Marcy expresses her feelings with her face.", "sentence_cn": "马西用她的脸来表达感情。"}, {"word": "grade", "pos": "n.", "meaning": "年级；成绩", "sentence": "Lesley started first grade today.", "sentence_cn": "莱斯利今天开始上一年级。"}, {"word": "part", "pos": "n.", "meaning": "部分", "sentence": "The cheese was cut into eight parts.", "sentence_cn": "奶酪被切成了八块。"}, {"word": "save", "pos": "v.", "meaning": "保存；节省", "sentence": "She is saving this cake to eat tomorrow.", "sentence_cn": "她留着这块蛋糕明天吃。"}, {"word": "set", "pos": "v.", "meaning": "设置", "sentence": "We need to set a date for our trip.", "sentence_cn": "我们需要为旅行定一个日期。"}, {"word": "space", "pos": "n.", "meaning": "空间", "sentence": "Their new apartment has a lot of space.", "sentence_cn": "他们的新公寓有很多空间。"}, {"word": "special", "pos": "adj.", "meaning": "特别的", "sentence": "The store is offering special, low prices all week.", "sentence_cn": "这家商店整周都在提供特别低价。"}, {"word": "cheer", "pos": "v.", "meaning": "欢呼", "sentence": "The fans are cheering for their favorite baseball team.", "sentence_cn": "粉丝们正在为他们最喜欢的棒球队欢呼。"}, {"word": "contest", "pos": "n.", "meaning": "比赛", "sentence": "Mila and Victor won the dance contest!", "sentence_cn": "米拉和维克多赢得了舞蹈比赛！"}, {"word": "gift", "pos": "n.", "meaning": "礼物", "sentence": "His gift came in a pretty red box.", "sentence_cn": "他的礼物装在一个漂亮的红盒子里。"}, {"word": "magazine", "pos": "n.", "meaning": "杂志", "sentence": "'The Week' is my favorite news magazine.", "sentence_cn": "《周刊》是我最喜欢的新闻杂志。"}, {"word": "perform", "pos": "v.", "meaning": "表演", "sentence": "The popular singer performs all over the world.", "sentence_cn": "这位流行歌手在全世界表演。"}, {"word": "public", "pos": "n.", "meaning": "公众", "sentence": "Shy people do not like to speak in public.", "sentence_cn": "害羞的人不喜欢在公众场合讲话。"}, {"word": "scene", "pos": "n.", "meaning": "场景", "sentence": "The scene with the fight is the most exciting part of the play.", "sentence_cn": "打架的场景是这部剧最激动人心的部分。"}, {"word": "secret", "pos": "n.", "meaning": "秘密", "sentence": "Greg is telling Jessica a secret. I wonder what it is!", "sentence_cn": "格雷格正在告诉杰西卡一个秘密。我想知道是什么！"}, {"word": "stage", "pos": "n.", "meaning": "舞台", "sentence": "Many great actors have performed on this stage.", "sentence_cn": "许多伟大的演员在这个舞台上表演过。"}, {"word": "unique", "pos": "adj.", "meaning": "独特的", "sentence": "That man's hair is unique.", "sentence_cn": "那个男人的头发很独特。"}], "Book3_Unit4": [{"word": "electricity", "pos": "n.", "meaning": "电", "sentence": "Humans use a lot of electricity.", "sentence_cn": "人类使用大量的电。"}, {"word": "fact", "pos": "n.", "meaning": "事实", "sentence": "South Korea is a country in Asia. That is a fact.", "sentence_cn": "韩国是亚洲的一个国家。这是事实。"}, {"word": "fold", "pos": "v.", "meaning": "折叠", "sentence": "She folds her clothes to make more space for them.", "sentence_cn": "她把衣服叠起来，为它们腾出更多空间。"}, {"word": "key", "pos": "n.", "meaning": "钥匙", "sentence": "I usually keep my house key in a secret place.", "sentence_cn": "我通常把家门钥匙放在一个秘密的地方。"}, {"word": "mind", "pos": "v.", "meaning": "介意", "sentence": "She does not mind if you borrow her car.", "sentence_cn": "她不介意你借她的车。"}, {"word": "power", "pos": "n.", "meaning": "电力；力量", "sentence": "They turned the power off for a special event.", "sentence_cn": "他们为了一个特别活动关掉了电源。"}, {"word": "sock", "pos": "n.", "meaning": "袜子", "sentence": "Jessica gave Holly socks for her birthday.", "sentence_cn": "杰西卡送给霍莉袜子作为生日礼物。"}, {"word": "solve", "pos": "v.", "meaning": "解决", "sentence": "He has to choose the correct path to solve the puzzle.", "sentence_cn": "他必须选择正确的路径来解决这个谜题。"}, {"word": "stick", "pos": "v.", "meaning": "粘贴", "sentence": "Marsha sticks special notes on the door for her husband.", "sentence_cn": "玛莎在门上贴特别的便条给她的丈夫。"}, {"word": "traffic", "pos": "n.", "meaning": "交通", "sentence": "It is not safe to drive in this area. There is too much traffic.", "sentence_cn": "在这个区域开车不安全。交通太拥挤了。"}, {"word": "advice", "pos": "n.", "meaning": "建议", "sentence": "He gives them advice about saving money.", "sentence_cn": "他给他们关于省钱的建议。"}, {"word": "case", "pos": "n.", "meaning": "盒子；情况", "sentence": "Max will buy a larger pencil case when he is in the sixth grade.", "sentence_cn": "马克斯上六年级时会买一个更大的铅笔盒。"}, {"word": "exam", "pos": "n.", "meaning": "考试", "sentence": "He takes an exam to attend the new school.", "sentence_cn": "他参加考试以进入新学校。"}, {"word": "happen", "pos": "v.", "meaning": "发生", "sentence": "The car crash happened in front of the theater.", "sentence_cn": "车祸发生在剧院前面。"}, {"word": "lazy", "pos": "adj.", "meaning": "懒惰的", "sentence": "John is smart, but he is very lazy.", "sentence_cn": "约翰很聪明，但他很懒。"}, {"word": "message", "pos": "n.", "meaning": "信息", "sentence": "Gary received an important message last night.", "sentence_cn": "加里昨晚收到了一条重要信息。"}, {"word": "stupid", "pos": "adj.", "meaning": "愚蠢的", "sentence": "Riding down the rocks in the toy car is a stupid idea.", "sentence_cn": "坐着玩具车从岩石上滑下来是个愚蠢的主意。"}, {"word": "succeed", "pos": "v.", "meaning": "成功", "sentence": "Pam's family is happy that she succeeded in school.", "sentence_cn": "帕姆的家人很高兴她在学校取得了成功。"}, {"word": "terrible", "pos": "adj.", "meaning": "糟糕的", "sentence": "Dan got a terrible grade on his exam.", "sentence_cn": "丹的考试成绩很糟糕。"}, {"word": "upset", "pos": "adj.", "meaning": "心烦的", "sentence": "She is upset because she cannot find the book she needs.", "sentence_cn": "她很心烦，因为她找不到她需要的书。"}], "Book3_Unit5": [{"word": "airplane", "pos": "n.", "meaning": "飞机", "sentence": "The airplane flies through the sky.", "sentence_cn": "飞机飞过天空。"}, {"word": "airport", "pos": "n.", "meaning": "机场", "sentence": "The airplane arrived at the airport early.", "sentence_cn": "飞机提前到达了机场。"}, {"word": "culture", "pos": "n.", "meaning": "文化", "sentence": "Melissa went to Japan to learn about its unique culture.", "sentence_cn": "梅丽莎去日本了解其独特的文化。"}, {"word": "decide", "pos": "v.", "meaning": "决定", "sentence": "She decided to wear the blue shirt to the event.", "sentence_cn": "她决定穿蓝色衬衫去参加那个活动。"}, {"word": "leave", "pos": "v.", "meaning": "离开", "sentence": "They are leaving their office to go home.", "sentence_cn": "他们正离开办公室回家。"}, {"word": "modern", "pos": "adj.", "meaning": "现代的", "sentence": "I saw Jeff's modern house in a magazine.", "sentence_cn": "我在杂志上看到杰夫的现代房子。"}, {"word": "order", "pos": "v.", "meaning": "点餐；订购", "sentence": "They took the waiter's advice and ordered fish for dinner.", "sentence_cn": "他们听从服务员的建议，点了鱼当晚餐。"}, {"word": "sand", "pos": "n.", "meaning": "沙子", "sentence": "Olivia wrote a message in the sand.", "sentence_cn": "奥利维亚在沙子上写了一条信息。"}, {"word": "spot", "pos": "n.", "meaning": "地点", "sentence": "The beach is a popular spot in the summer.", "sentence_cn": "海滩是夏天受欢迎的地方。"}, {"word": "strange", "pos": "adj.", "meaning": "奇怪的", "sentence": "The strange animal looks like it is dancing.", "sentence_cn": "那只奇怪的动物看起来像在跳舞。"}, {"word": "bill", "pos": "n.", "meaning": "账单；钞票", "sentence": "Josh folds the bills before he puts them in his pocket.", "sentence_cn": "乔希把钞票折好放进口袋。"}, {"word": "blow", "pos": "v.", "meaning": "吹", "sentence": "Kerri blows the seeds into the air.", "sentence_cn": "克里把种子吹到空中。"}, {"word": "century", "pos": "n.", "meaning": "世纪", "sentence": "Bob was born one century ago.", "sentence_cn": "鲍勃出生在一个世纪前。"}, {"word": "custom", "pos": "n.", "meaning": "习俗", "sentence": "It is a custom in many countries to give birthday gifts.", "sentence_cn": "在许多国家，送生日礼物是一种习俗。"}, {"word": "experience", "pos": "v.", "meaning": "体验", "sentence": "They want to experience sleeping in nature.", "sentence_cn": "他们想体验在大自然中睡觉。"}, {"word": "international", "pos": "adj.", "meaning": "国际的", "sentence": "Many people attended the international meeting.", "sentence_cn": "许多人参加了这次国际会议。"}, {"word": "island", "pos": "n.", "meaning": "岛屿", "sentence": "There is no electricity on the island.", "sentence_cn": "岛上没有电。"}, {"word": "journey", "pos": "n.", "meaning": "旅程", "sentence": "They are going on a journey through the sand.", "sentence_cn": "他们正在穿越沙地的旅程中。"}, {"word": "meal", "pos": "n.", "meaning": "餐", "sentence": "She made a terrible meal. No one liked it.", "sentence_cn": "她做了一顿糟糕的饭。没人喜欢。"}, {"word": "return", "pos": "v.", "meaning": "返回", "sentence": "We are always happy to return home.", "sentence_cn": "我们总是很高兴回家。"}], "Book3_Unit6": [{"word": "actually", "pos": "adv.", "meaning": "实际上", "sentence": "Actually, we do not mind waiting for you at the airport.", "sentence_cn": "实际上，我们不介意在机场等你。"}, {"word": "camp", "pos": "v.", "meaning": "露营", "sentence": "They camped on an island.", "sentence_cn": "他们在岛上露营。"}, {"word": "collect", "pos": "v.", "meaning": "收集", "sentence": "She collects shells that she finds in the sand.", "sentence_cn": "她收集在沙子里找到的贝壳。"}, {"word": "form", "pos": "v.", "meaning": "形成", "sentence": "He forms a pot with his hands.", "sentence_cn": "他用手捏成一个罐子。"}, {"word": "kick", "pos": "v.", "meaning": "踢", "sentence": "Lee kicked the ball to Henry.", "sentence_cn": "李把球踢给了亨利。"}, {"word": "reach", "pos": "v.", "meaning": "伸手够到", "sentence": "She reaches for the baby.", "sentence_cn": "她伸手去够婴儿。"}, {"word": "review", "pos": "v.", "meaning": "复习", "sentence": "The students review their notes for the exam.", "sentence_cn": "学生们复习笔记准备考试。"}, {"word": "simple", "pos": "adj.", "meaning": "简单的", "sentence": "He solved a simple problem.", "sentence_cn": "他解决了一个简单的问题。"}, {"word": "soccer", "pos": "n.", "meaning": "足球", "sentence": "Soccer is a popular sport in many cultures.", "sentence_cn": "足球在许多文化中是一项受欢迎的运动。"}, {"word": "symbol", "pos": "n.", "meaning": "象征", "sentence": "A heart shape is a symbol of love.", "sentence_cn": "心形是爱的象征。"}, {"word": "allow", "pos": "v.", "meaning": "允许", "sentence": "Her parents allow her to have a strange hair color.", "sentence_cn": "她的父母允许她有奇怪的发色。"}, {"word": "bat", "pos": "n.", "meaning": "蝙蝠", "sentence": "The bat returns to the forest to hunt for food.", "sentence_cn": "蝙蝠返回森林寻找食物。"}, {"word": "exercise", "pos": "v.", "meaning": "锻炼", "sentence": "They decided to exercise in the park.", "sentence_cn": "他们决定在公园锻炼。"}, {"word": "force", "pos": "v.", "meaning": "强迫", "sentence": "Wayne's mom forced him to eat all of his meal.", "sentence_cn": "韦恩的妈妈强迫他吃完所有的饭。"}, {"word": "leaf", "pos": "n.", "meaning": "叶子", "sentence": "Each kind of plant has unique leaves.", "sentence_cn": "每种植物都有独特的叶子。"}, {"word": "member", "pos": "n.", "meaning": "成员", "sentence": "All of the members wear the same clothing.", "sentence_cn": "所有成员都穿同样的衣服。"}, {"word": "real", "pos": "adj.", "meaning": "真实的", "sentence": "He looks at the bill to see if it is real.", "sentence_cn": "他看着钞票看是不是真的。"}, {"word": "sign", "pos": "n.", "meaning": "标志", "sentence": "Follow the sign to the international airport.", "sentence_cn": "跟着标志去国际机场。"}, {"word": "step", "pos": "v.", "meaning": "踏；踩", "sentence": "Sarah stepped on the stones to cross the river.", "sentence_cn": "莎拉踩在石头上过河。"}, {"word": "treat", "pos": "n.", "meaning": "款待", "sentence": "They enjoy a treat after school.", "sentence_cn": "他们放学后享受一份款待。"}], "Book3_Unit7": [{"word": "afraid", "pos": "adj.", "meaning": "害怕的", "sentence": "Marta is afraid of bats.", "sentence_cn": "玛尔塔害怕蝙蝠。"}, {"word": "fair", "pos": "adj.", "meaning": "公平的", "sentence": "They made a fair exchange.", "sentence_cn": "他们进行了公平的交换。"}, {"word": "focus", "pos": "v.", "meaning": "集中", "sentence": "He focuses on the yellow spot in the center.", "sentence_cn": "他集中在中心的黄色点上。"}, {"word": "foreign", "pos": "adj.", "meaning": "外国的", "sentence": "Kate went on a journey to a foreign country in Africa.", "sentence_cn": "凯特去非洲的一个外国旅行。"}, {"word": "habit", "pos": "n.", "meaning": "习惯", "sentence": "Drinking soda is a terrible habit.", "sentence_cn": "喝苏打水是个坏习惯。"}, {"word": "invent", "pos": "v.", "meaning": "发明", "sentence": "Nathan invented a robot that can solve puzzles.", "sentence_cn": "内森发明了一个能解决谜题的机器人。"}, {"word": "language", "pos": "n.", "meaning": "语言", "sentence": "I cannot read the sign. It is in a foreign language.", "sentence_cn": "我看不懂这个标志。它是用外语写的。"}, {"word": "nation", "pos": "n.", "meaning": "国家", "sentence": "Switzerland is a small nation.", "sentence_cn": "瑞士是一个小国家。"}, {"word": "still", "pos": "adj.", "meaning": "静止的", "sentence": "The woman is very still.", "sentence_cn": "那个女人非常静止不动。"}, {"word": "wise", "pos": "adj.", "meaning": "明智的", "sentence": "My grandfather gives good advice because he is wise.", "sentence_cn": "我爷爷给出好建议，因为他很明智。"}, {"word": "audience", "pos": "n.", "meaning": "观众", "sentence": "The audience waits for the movie to begin.", "sentence_cn": "观众等待电影开始。"}, {"word": "college", "pos": "n.", "meaning": "大学", "sentence": "Susan attends a college with many international students.", "sentence_cn": "苏珊就读于一所有很多国际学生的大学。"}, {"word": "comfortable", "pos": "adj.", "meaning": "舒适的", "sentence": "She is comfortable on her new sofa.", "sentence_cn": "她在新沙发上很舒适。"}, {"word": "honest", "pos": "adj.", "meaning": "诚实的", "sentence": "Nick is very honest. He returned the money he found.", "sentence_cn": "尼克非常诚实。他归还了找到的钱。"}, {"word": "imagine", "pos": "v.", "meaning": "想象", "sentence": "The little girl imagines she is a big person in a small world.", "sentence_cn": "小女孩想象自己是一个小世界里的大人物。"}, {"word": "level", "pos": "n.", "meaning": "水平；等级", "sentence": "They watched as the water level continued to go up.", "sentence_cn": "他们看着水位持续上升。"}, {"word": "sentence", "pos": "n.", "meaning": "句子", "sentence": "Mrs. Hays was upset with Tom, so she made him write sentences.", "sentence_cn": "海斯太太对汤姆很生气，所以她让他写句子。"}, {"word": "stress", "pos": "n.", "meaning": "压力", "sentence": "She is under a lot of stress from her job.", "sentence_cn": "她的工作给她带来很大的压力。"}, {"word": "suddenly", "pos": "adv.", "meaning": "突然", "sentence": "Suddenly, a storm blew sand across the road.", "sentence_cn": "突然，一场风暴把沙子吹过了马路。"}, {"word": "topic", "pos": "n.", "meaning": "话题", "sentence": "The teacher wrote the topic on the board.", "sentence_cn": "老师在黑板上写下了话题。"}], "Book3_Unit8": [{"word": "add", "pos": "v.", "meaning": "添加", "sentence": "She adds salt to her meal.", "sentence_cn": "她在饭里加了盐。"}, {"word": "blind", "pos": "adj.", "meaning": "盲的", "sentence": "The dog helps the blind man.", "sentence_cn": "那只狗帮助盲人。"}, {"word": "button", "pos": "n.", "meaning": "纽扣", "sentence": "Casey's grandmother collects buttons.", "sentence_cn": "凯西的祖母收集纽扣。"}, {"word": "create", "pos": "v.", "meaning": "创造", "sentence": "He creates a unique piece of art with leaves on the top.", "sentence_cn": "他用顶部的叶子创造了一件独特的艺术品。"}, {"word": "memory", "pos": "n.", "meaning": "记忆", "sentence": "They have great memories of their trip to the island.", "sentence_cn": "他们对岛屿之旅有美好的回忆。"}, {"word": "prince", "pos": "n.", "meaning": "王子", "sentence": "Katherine married a real prince.", "sentence_cn": "凯瑟琳嫁给了一位真正的王子。"}, {"word": "string", "pos": "n.", "meaning": "绳子", "sentence": "The clerk put a string around the gift.", "sentence_cn": "店员在礼物上系了一根绳子。"}, {"word": "thick", "pos": "adj.", "meaning": "厚的", "sentence": "She borrowed a lot of thick books at college.", "sentence_cn": "她在大学借了很多厚书。"}, {"word": "tight", "pos": "adj.", "meaning": "紧的", "sentence": "Max is not comfortable wearing this tight shirt.", "sentence_cn": "马克斯穿这件紧身衬衫不舒服。"}, {"word": "tradition", "pos": "n.", "meaning": "传统", "sentence": "In some cultures, it is a tradition to paint eggs.", "sentence_cn": "在某些文化中，画彩蛋是一种传统。"}, {"word": "board", "pos": "n.", "meaning": "木板", "sentence": "They invented a simple, outdoor game using a board.", "sentence_cn": "他们用木板发明了一个简单的户外游戏。"}, {"word": "brain", "pos": "n.", "meaning": "大脑", "sentence": "The picture focuses on the man's brain.", "sentence_cn": "这幅画聚焦于男人的大脑。"}, {"word": "celebrate", "pos": "v.", "meaning": "庆祝", "sentence": "The members of the soccer team celebrate after the game.", "sentence_cn": "足球队成员在比赛后庆祝。"}, {"word": "especially", "pos": "adv.", "meaning": "尤其", "sentence": "He is especially smart for his age.", "sentence_cn": "就他的年龄而言，他特别聪明。"}, {"word": "hole", "pos": "n.", "meaning": "洞", "sentence": "There is a hole in the wall.", "sentence_cn": "墙上有个洞。"}, {"word": "item", "pos": "n.", "meaning": "物品", "sentence": "There are many items in the box.", "sentence_cn": "盒子里有很多物品。"}, {"word": "match", "pos": "v.", "meaning": "匹配", "sentence": "Stacy's boots match her umbrella.", "sentence_cn": "史黛西的靴子和她的伞相配。"}, {"word": "princess", "pos": "n.", "meaning": "公主", "sentence": "She imagines she is a princess.", "sentence_cn": "她想象自己是一位公主。"}, {"word": "social", "pos": "adj.", "meaning": "社交的", "sentence": "Diane is very social. She has many friends.", "sentence_cn": "黛安很善于社交。她有很多朋友。"}, {"word": "tear", "pos": "v.", "meaning": "撕裂", "sentence": "The angry man tears the paper in half.", "sentence_cn": "那个愤怒的男人把纸撕成两半。"}], "Book3_Unit9": [{"word": "cross", "pos": "v.", "meaning": "穿过", "sentence": "They are especially careful when they cross a busy road.", "sentence_cn": "他们穿过繁忙的道路时特别小心。"}, {"word": "finally", "pos": "adv.", "meaning": "终于", "sentence": "The long meeting finally finished.", "sentence_cn": "漫长的会议终于结束了。"}, {"word": "follow", "pos": "v.", "meaning": "跟随", "sentence": "The baby is following close to its mother.", "sentence_cn": "婴儿紧紧跟在妈妈身边。"}, {"word": "heat", "pos": "v.", "meaning": "加热", "sentence": "He lighted the fire to heat the cold room.", "sentence_cn": "他生火来加热冰冷的房间。"}, {"word": "rainbow", "pos": "n.", "meaning": "彩虹", "sentence": "There are two rainbows in the sky.", "sentence_cn": "天空中有两道彩虹。"}, {"word": "spread", "pos": "v.", "meaning": "铺开", "sentence": "She is spreading the blanket on the grass.", "sentence_cn": "她正在草地上铺开毯子。"}, {"word": "tired", "pos": "adj.", "meaning": "累的", "sentence": "Nancy was so tired that she fell asleep in English class.", "sentence_cn": "南希太累了，在英语课上睡着了。"}, {"word": "tower", "pos": "n.", "meaning": "塔", "sentence": "Seeing the Eiffel Tower is one of the best memories of my trip.", "sentence_cn": "看到埃菲尔铁塔是我旅行中最美好的回忆之一。"}, {"word": "unit", "pos": "n.", "meaning": "单元", "sentence": "The topic of this math unit is difficult.", "sentence_cn": "这个数学单元的题目很难。"}, {"word": "vote", "pos": "v.", "meaning": "投票", "sentence": "The audience voted for the best singer.", "sentence_cn": "观众投票选出最佳歌手。"}, {"word": "climb", "pos": "v.", "meaning": "攀爬", "sentence": "Pam likes to exercise by climbing the wall.", "sentence_cn": "帕姆喜欢通过爬墙来锻炼。"}, {"word": "describe", "pos": "v.", "meaning": "描述", "sentence": "She is describing the result on the board.", "sentence_cn": "她正在描述黑板上的结果。"}, {"word": "energy", "pos": "n.", "meaning": "能量", "sentence": "The dog has a lot of energy. He plays all day.", "sentence_cn": "这只狗精力充沛。它整天都在玩。"}, {"word": "engine", "pos": "n.", "meaning": "引擎", "sentence": "Al reaches into the engine to fix the problem.", "sentence_cn": "艾尔伸手进引擎修理问题。"}, {"word": "field", "pos": "n.", "meaning": "田野", "sentence": "Bob's neighbor allows him to hunt in his field.", "sentence_cn": "鲍勃的邻居允许他在田里打猎。"}, {"word": "include", "pos": "v.", "meaning": "包括", "sentence": "Our new team members include Joe, Min, and Brian.", "sentence_cn": "我们的新团队成员包括乔、敏和布莱恩。"}, {"word": "perfect", "pos": "adj.", "meaning": "完美的", "sentence": "Marvin received a perfect score on his college exam.", "sentence_cn": "马文在大学考试中获得了满分。"}, {"word": "rise", "pos": "v.", "meaning": "上升", "sentence": "The airplane rises in the sky.", "sentence_cn": "飞机升上天空。"}, {"word": "shape", "pos": "n.", "meaning": "形状", "sentence": "The cookie is in the shape of a heart.", "sentence_cn": "饼干是心形的。"}, {"word": "stone", "pos": "n.", "meaning": "石头", "sentence": "Meg added two new stones to her collection.", "sentence_cn": "梅格在她的收藏中增加了两块新石头。"}], "Book3_Unit10": [{"word": "bake", "pos": "v.", "meaning": "烘烤", "sentence": "Mom is baking some muffins.", "sentence_cn": "妈妈正在烤松饼。"}, {"word": "communicate", "pos": "v.", "meaning": "交流", "sentence": "The man and woman communicate well at work.", "sentence_cn": "这个男人和女人在工作中交流得很好。"}, {"word": "deliver", "pos": "v.", "meaning": "递送", "sentence": "He delivers the box to the woman.", "sentence_cn": "他把盒子递送给那个女人。"}, {"word": "direct", "pos": "v.", "meaning": "导演", "sentence": "The woman in the middle is directing the movie.", "sentence_cn": "中间那个女人正在导演这部电影。"}, {"word": "goal", "pos": "n.", "meaning": "目标", "sentence": "He reached his goal of climbing to the top of the mountain.", "sentence_cn": "他达到了爬到山顶的目标。"}, {"word": "history", "pos": "n.", "meaning": "历史", "sentence": "The pyramids in Egypt are an important part of history.", "sentence_cn": "埃及金字塔是历史的重要组成部分。"}, {"word": "inform", "pos": "v.", "meaning": "通知", "sentence": "Ed informed the man that he got the job.", "sentence_cn": "艾德通知那个男人他得到了这份工作。"}, {"word": "mail", "pos": "n.", "meaning": "邮件", "sentence": "He collects the mail in the afternoon.", "sentence_cn": "他下午收邮件。"}, {"word": "march", "pos": "v.", "meaning": "行进", "sentence": "The band is marching down the street.", "sentence_cn": "乐队正在沿街行进。"}, {"word": "whole", "pos": "adj.", "meaning": "整个的", "sentence": "I do not want one piece of pizza. I want to eat the whole thing!", "sentence_cn": "我不想要一块披萨。我要吃整个的！"}, {"word": "appear", "pos": "v.", "meaning": "出现", "sentence": "The actress will appear in the play every night this week.", "sentence_cn": "这位女演员本周每晚都会在剧中出现。"}, {"word": "community", "pos": "n.", "meaning": "社区", "sentence": "Alice lives in a very nice community.", "sentence_cn": "爱丽丝住在一个非常好的社区。"}, {"word": "festival", "pos": "n.", "meaning": "节日", "sentence": "People in India throw colors at each other during the Holi festival.", "sentence_cn": "在印度，人们在胡里节期间互相投掷彩粉。"}, {"word": "interview", "pos": "v.", "meaning": "面试", "sentence": "Jill was interviewed for an important job at an international airport.", "sentence_cn": "吉尔在国际机场接受了一份重要工作的面试。"}, {"word": "million", "pos": "adj.", "meaning": "百万", "sentence": "The bag is filled with a million dollars.", "sentence_cn": "袋子里装满了一百万美元。"}, {"word": "newspaper", "pos": "n.", "meaning": "报纸", "sentence": "The newspaper describes events around the world.", "sentence_cn": "报纸描述了世界各地的事件。"}, {"word": "report", "pos": "v.", "meaning": "报道", "sentence": "Maria is reporting the event while it is happening.", "sentence_cn": "玛丽亚正在报道正在发生的事件。"}, {"word": "sport", "pos": "n.", "meaning": "运动", "sentence": "The three children like different sports.", "sentence_cn": "这三个孩子喜欢不同的运动。"}, {"word": "support", "pos": "v.", "meaning": "支持", "sentence": "They are supporting William during this difficult time.", "sentence_cn": "他们在这个困难时期支持威廉。"}, {"word": "uniform", "pos": "n.", "meaning": "制服", "sentence": "The workers wear different uniforms for their jobs.", "sentence_cn": "工人们穿着不同的制服工作。"}], "Book3_Unit11": [{"word": "brave", "pos": "adj.", "meaning": "勇敢的", "sentence": "The brave man returns to the fire to save more people.", "sentence_cn": "那个勇敢的男人返回火场去救更多人。"}, {"word": "goat", "pos": "n.", "meaning": "山羊", "sentence": "The goat is crossing the field.", "sentence_cn": "山羊正在穿过田野。"}, {"word": "hang", "pos": "v.", "meaning": "悬挂", "sentence": "They hang their clothes on the line to dry.", "sentence_cn": "他们把衣服挂在绳子上晾干。"}, {"word": "ice", "pos": "n.", "meaning": "冰", "sentence": "We put ice in our drinks to cool them.", "sentence_cn": "我们在饮料里加冰来冷却它们。"}, {"word": "insect", "pos": "n.", "meaning": "昆虫", "sentence": "The insect is especially beautiful.", "sentence_cn": "这只昆虫特别漂亮。"}, {"word": "raise", "pos": "v.", "meaning": "养育", "sentence": "He spreads food on the ground for the chickens he is raising.", "sentence_cn": "他在地上撒食物给他养的鸡吃。"}, {"word": "roll", "pos": "v.", "meaning": "滚动", "sentence": "He rolls the snowball across the yard.", "sentence_cn": "他把雪球滚过院子。"}, {"word": "sore", "pos": "adj.", "meaning": "酸痛的", "sentence": "She is putting something cold on her sore arm.", "sentence_cn": "她正在把冷东西放在酸痛的手臂上。"}, {"word": "tent", "pos": "n.", "meaning": "帐篷", "sentence": "The children will sleep in tents.", "sentence_cn": "孩子们将睡在帐篷里。"}, {"word": "village", "pos": "n.", "meaning": "村庄", "sentence": "A story about this village appeared in the newspaper.", "sentence_cn": "关于这个村庄的故事出现在报纸上。"}, {"word": "accident", "pos": "n.", "meaning": "事故", "sentence": "Dennis had an accident riding his bicycle. He hurt his leg.", "sentence_cn": "丹尼斯骑自行车时出了事故。他伤了腿。"}, {"word": "adventure", "pos": "n.", "meaning": "冒险", "sentence": "They had a fun adventure on their vacation.", "sentence_cn": "他们在度假时有一次有趣的冒险。"}, {"word": "corn", "pos": "n.", "meaning": "玉米", "sentence": "The corn looks delicious and fresh. I cannot wait to eat it.", "sentence_cn": "玉米看起来美味又新鲜。我等不及要吃它了。"}, {"word": "develop", "pos": "v.", "meaning": "发展", "sentence": "They developed a plan to meet their goal.", "sentence_cn": "他们制定了一个计划来实现目标。"}, {"word": "medicine", "pos": "n.", "meaning": "药", "sentence": "This medicine will make your head feel better.", "sentence_cn": "这药会让你的头感觉好些。"}, {"word": "own", "pos": "v.", "meaning": "拥有", "sentence": "They own a house in a beautiful community.", "sentence_cn": "他们在一个美丽的社区拥有一所房子。"}, {"word": "product", "pos": "n.", "meaning": "产品", "sentence": "She is trying to decide which product to buy.", "sentence_cn": "她正在决定买哪个产品。"}, {"word": "quite", "pos": "adv.", "meaning": "相当", "sentence": "The tower is quite tall.", "sentence_cn": "那座塔相当高。"}, {"word": "roof", "pos": "n.", "meaning": "屋顶", "sentence": "He is fixing a hole in the roof.", "sentence_cn": "他正在修理屋顶上的洞。"}, {"word": "rope", "pos": "n.", "meaning": "绳子", "sentence": "The children are pulling on the rope.", "sentence_cn": "孩子们正在拉绳子。"}], "Book3_Unit12": [{"word": "carrot", "pos": "n.", "meaning": "胡萝卜", "sentence": "We raised carrots in our garden.", "sentence_cn": "我们在花园里种了胡萝卜。"}, {"word": "cause", "pos": "v.", "meaning": "导致", "sentence": "He caused the pieces to fall over.", "sentence_cn": "他导致碎片倒下了。"}, {"word": "experiment", "pos": "v.", "meaning": "实验", "sentence": "Kelly enjoys experimenting with colors.", "sentence_cn": "凯莉喜欢用颜色做实验。"}, {"word": "fry", "pos": "v.", "meaning": "油炸", "sentence": "He heats the pan and then fries food in it.", "sentence_cn": "他加热锅，然后在里面炸食物。"}, {"word": "ground", "pos": "n.", "meaning": "地面", "sentence": "The newspaper lies on the ground.", "sentence_cn": "报纸躺在地上。"}, {"word": "kill", "pos": "v.", "meaning": "杀死", "sentence": "I felt sad when I killed the insect on my desk.", "sentence_cn": "当我杀死桌上的昆虫时，我感到难过。"}, {"word": "mix", "pos": "v.", "meaning": "混合", "sentence": "I like to mix different kinds of vegetables when I cook.", "sentence_cn": "我做饭时喜欢混合不同种类的蔬菜。"}, {"word": "possible", "pos": "adj.", "meaning": "可能的", "sentence": "Mary said we could not climb to the top, but I knew it was possible.", "sentence_cn": "玛丽说我们不能爬到顶，但我知道这是可能的。"}, {"word": "pot", "pos": "n.", "meaning": "锅", "sentence": "The corn is cooking in a pot.", "sentence_cn": "玉米正在锅里煮。"}, {"word": "proud", "pos": "adj.", "meaning": "骄傲的", "sentence": "His parents are proud of him for completing college.", "sentence_cn": "他的父母为他完成大学学业感到骄傲。"}, {"word": "lay", "pos": "v.", "meaning": "放置", "sentence": "Ricky is laying the boards on the floor.", "sentence_cn": "瑞奇正在把木板铺在地板上。"}, {"word": "list", "pos": "n.", "meaning": "清单", "sentence": "I made a list of things I need to buy at the store.", "sentence_cn": "我列了一张需要在商店买的东西清单。"}, {"word": "main", "pos": "adj.", "meaning": "主要的", "sentence": "We drove through the village on the main road.", "sentence_cn": "我们沿着主干道开车穿过村庄。"}, {"word": "mark", "pos": "n.", "meaning": "标记", "sentence": "He made a mark in the box next to his answer.", "sentence_cn": "他在答案旁边的框里做了标记。"}, {"word": "mistake", "pos": "n.", "meaning": "错误", "sentence": "Does the teacher know she made a mistake?", "sentence_cn": "老师知道她犯了错误吗？"}, {"word": "price", "pos": "n.", "meaning": "价格", "sentence": "The woman is looking at the price of the shirt.", "sentence_cn": "那个女人正在看衬衫的价格。"}, {"word": "several", "pos": "adj.", "meaning": "几个", "sentence": "There are several goats near the tree.", "sentence_cn": "树附近有几只山羊。"}, {"word": "share", "pos": "v.", "meaning": "分享", "sentence": "Marcus shares the tent with his sister.", "sentence_cn": "马库斯和他妹妹分享帐篷。"}, {"word": "soil", "pos": "n.", "meaning": "土壤", "sentence": "Carrots and other vegetables grow in the soil.", "sentence_cn": "胡萝卜和其他蔬菜生长在土壤中。"}, {"word": "taste", "pos": "v.", "meaning": "品尝", "sentence": "The cook tastes the food a final time before it is served.", "sentence_cn": "厨师在上菜前最后一次品尝食物。"}], "Book4_Unit1": [{"word": "awful", "pos": "adj.", "meaning": "糟糕的", "sentence": "Sam was not proud of the awful smell coming from his shoes.", "sentence_cn": "山姆不为鞋子里发出的难闻气味感到骄傲。"}, {"word": "crazy", "pos": "adj.", "meaning": "疯狂的", "sentence": "Susan's hair looks really crazy, and she has an interview today!", "sentence_cn": "苏珊的头发看起来很疯狂，而且她今天有个面试！"}, {"word": "huge", "pos": "adj.", "meaning": "巨大的", "sentence": "I will give you a million dollars if you eat this huge hamburger.", "sentence_cn": "如果你吃了这个巨大的汉堡，我给你一百万美元。"}, {"word": "moment", "pos": "n.", "meaning": "时刻", "sentence": "I mixed the vegetables and then fried them for a few moments.", "sentence_cn": "我把蔬菜混合，然后炒了一会儿。"}, {"word": "odd", "pos": "adj.", "meaning": "奇怪的", "sentence": "Lewis's choice of hair color is quite odd.", "sentence_cn": "刘易斯选择的发色相当奇怪。"}, {"word": "pour", "pos": "v.", "meaning": "倒", "sentence": "Please pour some water for me. I do not want any ice.", "sentence_cn": "请给我倒些水。我不想要冰。"}, {"word": "regret", "pos": "v.", "meaning": "后悔", "sentence": "She regrets missing the last bus home. It was a big mistake.", "sentence_cn": "她后悔错过了回家的末班车。这是个很大的错误。"}, {"word": "steal", "pos": "v.", "meaning": "偷", "sentence": "We do not share our food with our cat, but she tries to steal it.", "sentence_cn": "我们不和猫分享食物，但它试图偷吃。"}, {"word": "thief", "pos": "n.", "meaning": "小偷", "sentence": "Lucy saw a thief trying to climb into her neighbor's window.", "sentence_cn": "露西看到一个小偷试图爬进邻居的窗户。"}, {"word": "tough", "pos": "adj.", "meaning": "坚强的", "sentence": "Max was the toughest man in our village.", "sentence_cn": "马克斯是我们村里最强壮的人。"}, {"word": "chance", "pos": "n.", "meaning": "机会", "sentence": "Mia and Phil got the chance to go on a European adventure.", "sentence_cn": "米娅和菲尔有机会去欧洲冒险。"}, {"word": "extra", "pos": "adj.", "meaning": "额外的", "sentence": "I have added extra cheese to make the pasta taste better.", "sentence_cn": "我加了额外的奶酪让意大利面更好吃。"}, {"word": "hall", "pos": "n.", "meaning": "大厅", "sentence": "It was possible to have a large party in the grand hall.", "sentence_cn": "在大厅里举办大型派对是可能的。"}, {"word": "immediately", "pos": "adv.", "meaning": "立即", "sentence": "The workers came immediately after the accident.", "sentence_cn": "事故发生后工人们立即赶来。"}, {"word": "intend", "pos": "v.", "meaning": "打算", "sentence": "For good health, she intends to eat several carrots every day.", "sentence_cn": "为了健康，她打算每天吃几根胡萝卜。"}, {"word": "mention", "pos": "v.", "meaning": "提及", "sentence": "Jude forgot to mention that he had to leave class early.", "sentence_cn": "裘德忘记提及他必须提前离开课堂。"}, {"word": "reaction", "pos": "n.", "meaning": "反应", "sentence": "It was a mistake to tell Jim the news. His reaction was very bad.", "sentence_cn": "告诉吉姆这个消息是个错误。他的反应非常糟糕。"}, {"word": "score", "pos": "v.", "meaning": "得分", "sentence": "Jose scored the winning goal at last night's game.", "sentence_cn": "何塞在昨晚的比赛中打进了制胜球。"}, {"word": "search", "pos": "v.", "meaning": "搜索", "sentence": "Alex searched the sky for the cause of the noise.", "sentence_cn": "亚历克斯搜索天空寻找噪音的来源。"}, {"word": "worse", "pos": "adj.", "meaning": "更糟的", "sentence": "There is nothing worse than cleaning the floor.", "sentence_cn": "没有什么比清洁地板更糟糕的了。"}], "Book4_Unit2": [{"word": "bit", "pos": "n.", "meaning": "小块", "sentence": "I broke the chocolate into bits so I could share it with my friends.", "sentence_cn": "我把巧克力掰成小块，这样我就可以和朋友分享了。"}, {"word": "common", "pos": "adj.", "meaning": "常见的", "sentence": "Colds are quite common in the winter.", "sentence_cn": "感冒在冬天很常见。"}, {"word": "diet", "pos": "n.", "meaning": "饮食", "sentence": "I intend to have a healthier diet by eating more fruit.", "sentence_cn": "我打算通过多吃水果来拥有更健康的饮食。"}, {"word": "evidence", "pos": "n.", "meaning": "证据", "sentence": "The police found evidence that Chris was the thief.", "sentence_cn": "警察找到了克里斯是小偷的证据。"}, {"word": "fit", "pos": "adj.", "meaning": "健康的", "sentence": "They stay fit by running whenever possible.", "sentence_cn": "他们尽可能通过跑步保持健康。"}, {"word": "limit", "pos": "v.", "meaning": "限制", "sentence": "She has little money and must limit how much she spends.", "sentence_cn": "她钱很少，必须限制花费。"}, {"word": "physical", "pos": "adj.", "meaning": "身体的", "sentence": "Playing sports is a good way to get physical exercise.", "sentence_cn": "运动是进行体育锻炼的好方法。"}, {"word": "poison", "pos": "n.", "meaning": "毒药", "sentence": "The symbol on the bottle says that it is poison.", "sentence_cn": "瓶子上的标志说那是毒药。"}, {"word": "sale", "pos": "n.", "meaning": "销售", "sentence": "There is a nice house for sale in my neighborhood.", "sentence_cn": "我家附近有一栋漂亮的房子出售。"}, {"word": "type", "pos": "n.", "meaning": "类型", "sentence": "Bakeries usually sell several different types of bread.", "sentence_cn": "面包店通常出售几种不同类型的面包。"}, {"word": "amount", "pos": "n.", "meaning": "数量", "sentence": "Make sure to use the right amount of oil to fry the food.", "sentence_cn": "确保使用适量的油来炸食物。"}, {"word": "cure", "pos": "n.", "meaning": "治愈", "sentence": "The new cure made John feel better almost immediately.", "sentence_cn": "新疗法几乎立刻让约翰感觉好多了。"}, {"word": "disease", "pos": "n.", "meaning": "疾病", "sentence": "A disease made the tree's leaves turn brown.", "sentence_cn": "一种疾病使树叶变成了棕色。"}, {"word": "medical", "pos": "adj.", "meaning": "医学的", "sentence": "If you often have awful headaches, you should get medical help.", "sentence_cn": "如果你经常头痛，你应该寻求医疗帮助。"}, {"word": "necessary", "pos": "adj.", "meaning": "必要的", "sentence": "When getting ready for a trip, take only what is necessary.", "sentence_cn": "准备旅行时，只带必要的东西。"}, {"word": "produce", "pos": "v.", "meaning": "生产", "sentence": "Cars produce a lot of problems for the environment.", "sentence_cn": "汽车给环境带来很多问题。"}, {"word": "reduce", "pos": "v.", "meaning": "减少", "sentence": "The store has reduced its prices on everything.", "sentence_cn": "商店把所有东西都降价了。"}, {"word": "serious", "pos": "adj.", "meaning": "严重的", "sentence": "We saw a serious car accident this afternoon.", "sentence_cn": "今天下午我们看到一起严重的车祸。"}, {"word": "source", "pos": "n.", "meaning": "来源", "sentence": "This river is the main source of water for many animals.", "sentence_cn": "这条河是许多动物的主要水源。"}, {"word": "supply", "pos": "v.", "meaning": "供应", "sentence": "My father supplies carrots to a restaurant in our town.", "sentence_cn": "我父亲给我们镇上的一家餐厅供应胡萝卜。"}], "Book4_Unit3": [{"word": "castle", "pos": "n.", "meaning": "城堡", "sentence": "Jim learned that it was common to find huge castles in the past.", "sentence_cn": "吉姆了解到过去发现巨大城堡是很常见的。"}, {"word": "decision", "pos": "n.", "meaning": "决定", "sentence": "Tim made the decision to eat the carrots to be healthier.", "sentence_cn": "蒂姆决定吃胡萝卜来变得更健康。"}, {"word": "empire", "pos": "n.", "meaning": "帝国", "sentence": "The Roman Empire included several hundred towns and cities.", "sentence_cn": "罗马帝国包括数百个城镇和城市。"}, {"word": "explore", "pos": "v.", "meaning": "探索", "sentence": "The woman, who is alone, loves to explore nature.", "sentence_cn": "那个独自一人的女人喜欢探索大自然。"}, {"word": "flight", "pos": "n.", "meaning": "航班", "sentence": "Max and Shelly shared a flight to Mexico City last summer.", "sentence_cn": "去年夏天马克斯和雪莉同乘一班飞机去墨西哥城。"}, {"word": "guard", "pos": "v.", "meaning": "守卫", "sentence": "Our dog Rover is guarding the house at the moment.", "sentence_cn": "我们的狗罗弗此刻正在守卫房子。"}, {"word": "incredible", "pos": "adj.", "meaning": "难以置信的", "sentence": "This book mentions how incredible the beaches are in Hawaii.", "sentence_cn": "这本书提到夏威夷的海滩是多么令人难以置信。"}, {"word": "serve", "pos": "v.", "meaning": "服务", "sentence": "They serve many types of food at this restaurant.", "sentence_cn": "这家餐厅提供多种食物。"}, {"word": "skin", "pos": "n.", "meaning": "皮肤", "sentence": "For beautiful skin, a healthy diet and good habits are necessary.", "sentence_cn": "为了美丽的皮肤，健康的饮食和良好的习惯是必要的。"}, {"word": "southern", "pos": "adj.", "meaning": "南方的", "sentence": "The man regretted not visiting southern California last summer.", "sentence_cn": "那个男人后悔去年夏天没有去南加州。"}, {"word": "admire", "pos": "v.", "meaning": "钦佩", "sentence": "I admire my mother more than anyone else.", "sentence_cn": "我比任何人都钦佩我的母亲。"}, {"word": "ancient", "pos": "adj.", "meaning": "古老的", "sentence": "This city in Peru is evidence of an ancient culture.", "sentence_cn": "秘鲁的这座城市是古老文化的证据。"}, {"word": "attractive", "pos": "adj.", "meaning": "有吸引力的", "sentence": "Jess is looking for an attractive dress for her party.", "sentence_cn": "杰丝正在为她的派对寻找一件有吸引力的裙子。"}, {"word": "giant", "pos": "adj.", "meaning": "巨大的", "sentence": "They had the chance to ride on a giant elephant at the zoo.", "sentence_cn": "他们有机会在动物园骑一头巨大的大象。"}, {"word": "pack", "pos": "v.", "meaning": "打包", "sentence": "She needs to limit the items she is packing in her suitcase.", "sentence_cn": "她需要限制她打包在行李箱里的物品。"}, {"word": "prefer", "pos": "v.", "meaning": "更喜欢", "sentence": "Gabby prefers to eat fresh fruit instead of junk food.", "sentence_cn": "加比更喜欢吃新鲜水果而不是垃圾食品。"}, {"word": "rent", "pos": "v.", "meaning": "租用", "sentence": "They rent a nice house for a small amount of money.", "sentence_cn": "他们用很少的钱租了一栋漂亮的房子。"}, {"word": "respect", "pos": "v.", "meaning": "尊重", "sentence": "It is necessary to respect your teachers by listening during class.", "sentence_cn": "通过在课堂上听老师讲课来尊重他们是必要的。"}, {"word": "view", "pos": "v.", "meaning": "观看", "sentence": "Ron viewed the odd artwork in the museum.", "sentence_cn": "罗恩在博物馆观看了奇怪的艺术品。"}, {"word": "wave", "pos": "v.", "meaning": "挥手", "sentence": "He waved goodbye to his parents before going back to college.", "sentence_cn": "他在回大学之前向父母挥手告别。"}], "Book4_Unit4": [{"word": "base", "pos": "v.", "meaning": "基于", "sentence": "This incredible show was based on a story by a famous writer.", "sentence_cn": "这部令人难以置信的节目基于一位著名作家的小说。"}, {"word": "character", "pos": "n.", "meaning": "角色", "sentence": "The main character in my favorite TV show is a very small girl.", "sentence_cn": "我最喜欢的电视剧的主角是一个非常小的女孩。"}, {"word": "clever", "pos": "adj.", "meaning": "聪明的", "sentence": "Sasha's cat is very clever. It can use the computer!", "sentence_cn": "萨莎的猫非常聪明。它会用电脑！"}, {"word": "enemy", "pos": "n.", "meaning": "敌人", "sentence": "Helen and I used to be friends, but she is my enemy now.", "sentence_cn": "海伦和我曾经是朋友，但她现在是我的敌人。"}, {"word": "length", "pos": "n.", "meaning": "长度", "sentence": "She wants to know the length of the piece of wood.", "sentence_cn": "她想知道这块木头的长度。"}, {"word": "promise", "pos": "v.", "meaning": "承诺", "sentence": "Rodney promised not to tell Connie's secret.", "sentence_cn": "罗德尼承诺不告诉康妮的秘密。"}, {"word": "quality", "pos": "n.", "meaning": "质量", "sentence": "Sam makes attractive clothes of good quality.", "sentence_cn": "山姆制作有吸引力且质量好的衣服。"}, {"word": "regularly", "pos": "adv.", "meaning": "定期地", "sentence": "He regularly helps his dad put away the clean towels.", "sentence_cn": "他定期帮爸爸把干净的毛巾收起来。"}, {"word": "survive", "pos": "v.", "meaning": "幸存", "sentence": "Lost in the forest, Bob survived by living like ancient humans.", "sentence_cn": "在森林中迷路后，鲍勃像古代人一样生活而幸存下来。"}, {"word": "title", "pos": "n.", "meaning": "标题", "sentence": "The title of her book is 'The Ancient Castle.'", "sentence_cn": "她的书的标题是《古老的城堡》。"}, {"word": "adult", "pos": "n.", "meaning": "成年人", "sentence": "The adult I respect the most is my mother.", "sentence_cn": "我最尊敬的成年人是我母亲。"}, {"word": "classic", "pos": "adj.", "meaning": "经典的", "sentence": "Jason enjoys driving classic cars. He owns several of them.", "sentence_cn": "杰森喜欢开经典汽车。他拥有好几辆。"}, {"word": "desert", "pos": "v.", "meaning": "遗弃", "sentence": "They deserted the building after the terrible fire.", "sentence_cn": "可怕的大火后，他们遗弃了这座建筑。"}, {"word": "discover", "pos": "v.", "meaning": "发现", "sentence": "She is trying to discover a cure for a serious disease.", "sentence_cn": "她正在试图发现一种严重疾病的疗法。"}, {"word": "female", "pos": "adj.", "meaning": "女性的", "sentence": "Mrs. Jennings prefers to visit a female doctor.", "sentence_cn": "詹宁斯太太更喜欢看女医生。"}, {"word": "flow", "pos": "v.", "meaning": "流动", "sentence": "This river flows from east to west.", "sentence_cn": "这条河从东向西流。"}, {"word": "mystery", "pos": "n.", "meaning": "谜团", "sentence": "That strange light in the forest is a mystery.", "sentence_cn": "森林里那道奇怪的光是个谜团。"}, {"word": "opinion", "pos": "n.", "meaning": "观点", "sentence": "It is just my opinion, but this store is the best one in the mall.", "sentence_cn": "这只是我的观点，但这家店是商场里最好的。"}, {"word": "pleasure", "pos": "n.", "meaning": "乐趣", "sentence": "She finds pleasure in lying in the field and looking at the sky.", "sentence_cn": "她在躺在田野里看天空中找到乐趣。"}, {"word": "publish", "pos": "v.", "meaning": "出版", "sentence": "The group worked together to publish the story.", "sentence_cn": "这个小组一起合作出版了这篇故事。"}], "Book4_Unit5": [{"word": "cough", "pos": "v.", "meaning": "咳嗽", "sentence": "Christine usually coughs a lot when she is sick.", "sentence_cn": "克里斯汀生病时经常咳嗽。"}, {"word": "crowd", "pos": "n.", "meaning": "人群", "sentence": "The crowd found pleasure in watching a really great game.", "sentence_cn": "人群在观看一场非常精彩的比赛时找到了乐趣。"}, {"word": "curious", "pos": "adj.", "meaning": "好奇的", "sentence": "Tim was curious to see what was inside the attractive red box.", "sentence_cn": "蒂姆好奇想看看那个有吸引力的红盒子里有什么。"}, {"word": "disappear", "pos": "v.", "meaning": "消失", "sentence": "Jacob's picture will disappear when it starts to rain.", "sentence_cn": "下雨时雅各布的照片会消失。"}, {"word": "edge", "pos": "n.", "meaning": "边缘", "sentence": "Susan stood at the edge of the cliff and looked down.", "sentence_cn": "苏珊站在悬崖边缘向下看。"}, {"word": "guide", "pos": "n.", "meaning": "导游", "sentence": "Our guide in Paris showed us many incredible places.", "sentence_cn": "我们在巴黎的导游带我们看了许多令人难以置信的地方。"}, {"word": "local", "pos": "adj.", "meaning": "当地的", "sentence": "We prefer to buy our food from the local market.", "sentence_cn": "我们更喜欢从当地市场购买食物。"}, {"word": "machine", "pos": "n.", "meaning": "机器", "sentence": "She put a small amount of clothes into the washing machine.", "sentence_cn": "她把少量衣服放进洗衣机。"}, {"word": "native", "pos": "n.", "meaning": "本地人", "sentence": "Maya is a native of a city in southern Michigan.", "sentence_cn": "玛雅是密歇根州南部一个城市的本地人。"}, {"word": "smoke", "pos": "n.", "meaning": "烟", "sentence": "Thick black smoke rose from the burning truck.", "sentence_cn": "浓黑的烟从燃烧的卡车上升起。"}, {"word": "avenue", "pos": "n.", "meaning": "大道", "sentence": "We will go down this avenue for a few blocks before turning.", "sentence_cn": "我们将沿着这条大道走几个街区再转弯。"}, {"word": "expect", "pos": "v.", "meaning": "期待", "sentence": "It is cloudy, so Tim expects it to rain.", "sentence_cn": "天阴了，所以蒂姆预计会下雨。"}, {"word": "explain", "pos": "v.", "meaning": "解释", "sentence": "They explained their opinions about the plan to their boss.", "sentence_cn": "他们向老板解释了他们对计划的看法。"}, {"word": "rub", "pos": "v.", "meaning": "摩擦", "sentence": "Kate rubbed lotion onto her baby's skin.", "sentence_cn": "凯特把乳液擦在宝宝的皮肤上。"}, {"word": "shine", "pos": "v.", "meaning": "发光", "sentence": "The sun shines through the trees every morning.", "sentence_cn": "每天早上阳光透过树木照射下来。"}, {"word": "strength", "pos": "n.", "meaning": "力量", "sentence": "Rocco trains hard to build his strength and stay healthy.", "sentence_cn": "罗科刻苦训练以增强力量并保持健康。"}, {"word": "suggest", "pos": "v.", "meaning": "建议", "sentence": "She asked him to suggest a medicine for her cough.", "sentence_cn": "她让他建议一种治疗她咳嗽的药。"}, {"word": "tour", "pos": "n.", "meaning": "旅行", "sentence": "We went on a tour of England and saw many famous places.", "sentence_cn": "我们去英国旅行，看到了许多著名的地方。"}, {"word": "western", "pos": "adj.", "meaning": "西方的", "sentence": "It is a mystery why this western town is deserted.", "sentence_cn": "为什么这个西部小镇被遗弃是个谜团。"}, {"word": "wheel", "pos": "n.", "meaning": "轮子", "sentence": "The wheels on our car needed a bit more air.", "sentence_cn": "我们车上的轮子需要再充点气。"}], "Book4_Unit6": [{"word": "cloth", "pos": "n.", "meaning": "布料", "sentence": "This store has a lot of good-quality cloth for sale.", "sentence_cn": "这家店有很多优质布料出售。"}, {"word": "equal", "pos": "adj.", "meaning": "相等的", "sentence": "We cut the cake into equal pieces.", "sentence_cn": "我们把蛋糕切成相等的块。"}, {"word": "fail", "pos": "v.", "meaning": "失败", "sentence": "Simon regretted not working hard when he failed the test.", "sentence_cn": "西蒙后悔考试不及格时没有努力学习。"}, {"word": "false", "pos": "adj.", "meaning": "错误的", "sentence": "He thought the story was based on fact, but it was false.", "sentence_cn": "他以为这个故事是基于事实的，但它是假的。"}, {"word": "goods", "pos": "n.", "meaning": "商品", "sentence": "She found many goods at the local market.", "sentence_cn": "她在当地市场找到了许多商品。"}, {"word": "increase", "pos": "v.", "meaning": "增加", "sentence": "As time passed, the tree increased in size.", "sentence_cn": "随着时间的推移，树变大了。"}, {"word": "penny", "pos": "n.", "meaning": "便士", "sentence": "She has saved a lot of pennies to buy a new toy.", "sentence_cn": "她存了很多便士来买新玩具。"}, {"word": "separate", "pos": "v.", "meaning": "分开", "sentence": "Kelly separated the bottles into different types for recycling.", "sentence_cn": "凯莉把瓶子分成不同类型以便回收。"}, {"word": "total", "pos": "n.", "meaning": "总数", "sentence": "There is a total of three fruits: two oranges and one apple.", "sentence_cn": "总共有三个水果：两个橙子和一个苹果。"}, {"word": "wrap", "pos": "v.", "meaning": "包裹", "sentence": "Marisa promised to wrap Katy's gift before the party.", "sentence_cn": "玛丽莎答应在派对前把凯蒂的礼物包好。"}, {"word": "appreciate", "pos": "v.", "meaning": "感激", "sentence": "Everyone appreciates Ted's hard work on the project.", "sentence_cn": "每个人都感激泰德在项目上的辛勤工作。"}, {"word": "avoid", "pos": "v.", "meaning": "避免", "sentence": "Sarah avoided Sam so she did not have to talk to him.", "sentence_cn": "莎拉避开山姆，这样她就不用和他说话。"}, {"word": "convenient", "pos": "adj.", "meaning": "方便的", "sentence": "The local stores stay open all night, which is very convenient.", "sentence_cn": "当地商店整夜营业，这非常方便。"}, {"word": "customer", "pos": "n.", "meaning": "顾客", "sentence": "Mark explains the difference between the items to his customer.", "sentence_cn": "马克向顾客解释物品之间的区别。"}, {"word": "destroy", "pos": "v.", "meaning": "破坏", "sentence": "We did not expect the road to be destroyed in the storm.", "sentence_cn": "我们没想到道路会在暴风雨中被破坏。"}, {"word": "disappointed", "pos": "adj.", "meaning": "失望的", "sentence": "Her father was disappointed that she had failed her exams.", "sentence_cn": "她父亲对她考试不及格感到失望。"}, {"word": "medium", "pos": "adj.", "meaning": "中等的", "sentence": "Most customers prefer the medium-sized cakes at Kara's bakery.", "sentence_cn": "大多数顾客更喜欢卡拉面包店的中号蛋糕。"}, {"word": "pattern", "pos": "n.", "meaning": "图案", "sentence": "They prefer paper with a simple pattern to cover their bedroom walls.", "sentence_cn": "他们更喜欢用简单图案的纸来覆盖卧室墙壁。"}, {"word": "trick", "pos": "v.", "meaning": "欺骗", "sentence": "Jenny tricked me when she put salt in my coffee.", "sentence_cn": "珍妮在我的咖啡里放盐时骗了我。"}, {"word": "value", "pos": "n.", "meaning": "价值", "sentence": "The value of houses has increased by ten percent this year.", "sentence_cn": "今年房屋价值上涨了百分之十。"}], "Book4_Unit7": [{"word": "beat", "pos": "v.", "meaning": "打败", "sentence": "Michelle regularly beat her husband at the video game.", "sentence_cn": "米歇尔经常在电子游戏中打败她丈夫。"}, {"word": "conduct", "pos": "v.", "meaning": "进行", "sentence": "The experiment John conducted produced unexpected results.", "sentence_cn": "约翰进行的实验产生了意想不到的结果。"}, {"word": "confident", "pos": "adj.", "meaning": "自信的", "sentence": "We are confident that we can increase our test scores.", "sentence_cn": "我们确信可以提高我们的考试分数。"}, {"word": "lead", "pos": "v.", "meaning": "带领", "sentence": "The tour guide is leading the people to the castle.", "sentence_cn": "导游正带领人们去城堡。"}, {"word": "lift", "pos": "v.", "meaning": "举起", "sentence": "To develop his strength, Ralph lifted weights every day.", "sentence_cn": "为了增强力量，拉尔夫每天举重。"}, {"word": "male", "pos": "adj.", "meaning": "男性的", "sentence": "Mr. Garcia was the first male teacher I had ever had.", "sentence_cn": "加西亚先生是我有过的第一位男老师。"}, {"word": "muscle", "pos": "n.", "meaning": "肌肉", "sentence": "Matt exercises his muscles for a total of three hours a day.", "sentence_cn": "马特每天锻炼肌肉总共三小时。"}, {"word": "speed", "pos": "n.", "meaning": "速度", "sentence": "He was disappointed that his speed was too slow for him to win.", "sentence_cn": "他失望的是他的速度太慢了，无法获胜。"}, {"word": "stretch", "pos": "v.", "meaning": "伸展", "sentence": "Heather stretches her legs before her dance class begins.", "sentence_cn": "希瑟在舞蹈课开始前伸展她的腿。"}, {"word": "trouble", "pos": "n.", "meaning": "麻烦", "sentence": "Drivers had trouble seeing the other cars on the avenue.", "sentence_cn": "司机们在大道上很难看到其他车辆。"}, {"word": "captain", "pos": "n.", "meaning": "队长", "sentence": "Anton is the captain of our soccer team this year.", "sentence_cn": "安东今年是我们足球队的队长。"}, {"word": "challenge", "pos": "n.", "meaning": "挑战", "sentence": "It is a challenge for Shelly to wake up early, so she is often late.", "sentence_cn": "对雪莉来说早起是个挑战，所以她经常迟到。"}, {"word": "complete", "pos": "v.", "meaning": "完成", "sentence": "Sally completed her work carefully to avoid any mistakes.", "sentence_cn": "萨莉仔细完成工作以避免任何错误。"}, {"word": "encourage", "pos": "v.", "meaning": "鼓励", "sentence": "The teacher encouraged her student to continue writing her story.", "sentence_cn": "老师鼓励学生继续写她的故事。"}, {"word": "noon", "pos": "n.", "meaning": "中午", "sentence": "The next class starts at noon and ends at 2:00 p.m.", "sentence_cn": "下节课从中午开始，下午2点结束。"}, {"word": "position", "pos": "n.", "meaning": "位置", "sentence": "Jen's position near the front of the room allows her to hear well.", "sentence_cn": "珍在房间前面的位置让她能听得很清楚。"}, {"word": "race", "pos": "n.", "meaning": "比赛", "sentence": "It is necessary for everyone to begin the race together.", "sentence_cn": "有必要让每个人一起开始比赛。"}, {"word": "record", "pos": "n.", "meaning": "记录", "sentence": "He held the record as the first person to climb this mountain.", "sentence_cn": "他保持着第一个攀登这座山的记录。"}, {"word": "skill", "pos": "n.", "meaning": "技能", "sentence": "It takes a bit of skill to wrap a gift well. Jenny is really good at it.", "sentence_cn": "包好礼物需要一点技巧。珍妮真的很擅长。"}, {"word": "wing", "pos": "n.", "meaning": "翅膀", "sentence": "The bird could not fly because it had a broken wing.", "sentence_cn": "这只鸟不能飞，因为它的翅膀断了。"}], "Book4_Unit8": [{"word": "certain", "pos": "adj.", "meaning": "确定的", "sentence": "Sally is certain her customers will enjoy her food.", "sentence_cn": "萨莉确信她的顾客会喜欢她的食物。"}, {"word": "discuss", "pos": "v.", "meaning": "讨论", "sentence": "The students discussed their troubles with their teacher.", "sentence_cn": "学生们和老师讨论了他们的困难。"}, {"word": "edit", "pos": "v.", "meaning": "编辑", "sentence": "Pamela had not expected that she would need to edit her story.", "sentence_cn": "帕梅拉没想到她需要编辑她的故事。"}, {"word": "gather", "pos": "v.", "meaning": "聚集", "sentence": "My family usually gathers on my grandfather's birthday.", "sentence_cn": "我家通常在我祖父生日那天聚会。"}, {"word": "image", "pos": "n.", "meaning": "图像", "sentence": "Gail is confident that she can draw realistic images of clothes.", "sentence_cn": "盖尔确信她能画出逼真的衣服图像。"}, {"word": "material", "pos": "n.", "meaning": "材料", "sentence": "It was a challenge to gather all the materials for my art class.", "sentence_cn": "为我的美术课收集所有材料是个挑战。"}, {"word": "positive", "pos": "adj.", "meaning": "积极的", "sentence": "Positive students can complete work quickly and easily.", "sentence_cn": "积极的学生可以快速轻松地完成工作。"}, {"word": "role", "pos": "n.", "meaning": "角色", "sentence": "Laura was respected for her role as team captain.", "sentence_cn": "劳拉因担任队长而受到尊重。"}, {"word": "screen", "pos": "n.", "meaning": "屏幕", "sentence": "The man touched the screen to check his email.", "sentence_cn": "那个男人触摸屏幕查看他的电子邮件。"}, {"word": "technology", "pos": "n.", "meaning": "技术", "sentence": "Mrs. Jensen encouraged her students to use technology.", "sentence_cn": "詹森太太鼓励她的学生使用技术。"}, {"word": "attack", "pos": "v.", "meaning": "攻击", "sentence": "When the computer stopped working, Sheryl wanted to attack it!", "sentence_cn": "当电脑停止工作时，谢丽尔想攻击它！"}, {"word": "available", "pos": "adj.", "meaning": "可用的", "sentence": "There are seats available in the back for people who are late.", "sentence_cn": "后面有座位供迟到的人使用。"}, {"word": "career", "pos": "n.", "meaning": "职业", "sentence": "You can choose any career you want. There are so many!", "sentence_cn": "你可以选择任何你想要的职业。有很多选择！"}, {"word": "connect", "pos": "v.", "meaning": "连接", "sentence": "Marvin connects a big screen to his dad's computer.", "sentence_cn": "马文把一个大屏幕连接到他爸爸的电脑上。"}, {"word": "dictionary", "pos": "n.", "meaning": "字典", "sentence": "Dictionaries are helpful for finding the spelling of words.", "sentence_cn": "字典有助于查找单词的拼写。"}, {"word": "handle", "pos": "v.", "meaning": "处理", "sentence": "Lisa is good at leading people. She knows how to handle them.", "sentence_cn": "丽莎善于领导人们。她知道如何处理他们。"}, {"word": "major", "pos": "adj.", "meaning": "主要的", "sentence": "Losing the key to our car was a major problem.", "sentence_cn": "丢失车钥匙是个大问题。"}, {"word": "provide", "pos": "v.", "meaning": "提供", "sentence": "Ms. Clark provides extra help to weaker students after school.", "sentence_cn": "克拉克女士放学后为较弱的学生提供额外帮助。"}, {"word": "section", "pos": "n.", "meaning": "部分", "sentence": "We can eat in this section of the park. Do you see the tables?", "sentence_cn": "我们可以在公园的这个区域吃饭。你看到桌子了吗？"}, {"word": "site", "pos": "n.", "meaning": "网站", "sentence": "There are several million sites on the Internet which sell things.", "sentence_cn": "互联网上有数百万个销售商品的网站。"}], "Book4_Unit9": [{"word": "accept", "pos": "v.", "meaning": "接受", "sentence": "Polly and Steven gladly accepted the key to their new home.", "sentence_cn": "波莉和史蒂文欣然接受了他们新家的钥匙。"}, {"word": "consider", "pos": "v.", "meaning": "考虑", "sentence": "Christine has to consider what career she wants very carefully.", "sentence_cn": "克里斯汀必须非常仔细地考虑她想要什么职业。"}, {"word": "exist", "pos": "v.", "meaning": "存在", "sentence": "These animals existed a long time ago. They are not alive now.", "sentence_cn": "这些动物很久以前就存在了。它们现在不活了。"}, {"word": "familiar", "pos": "adj.", "meaning": "熟悉的", "sentence": "The man looked familiar to the women gathered at the other table.", "sentence_cn": "那个男人对聚集在另一张桌子旁的女人们来说看起来很熟悉。"}, {"word": "joy", "pos": "n.", "meaning": "快乐", "sentence": "The role of mother brings Molly great joy.", "sentence_cn": "母亲的角色给莫莉带来很大的快乐。"}, {"word": "married", "pos": "adj.", "meaning": "已婚的", "sentence": "They got married last Saturday. It was a beautiful event.", "sentence_cn": "他们上周六结婚了。那是一个美丽的活动。"}, {"word": "rather", "pos": "adv.", "meaning": "宁愿", "sentence": "Gloria would rather paint her nails than do her homework.", "sentence_cn": "格洛丽亚宁愿涂指甲也不愿做作业。"}, {"word": "represent", "pos": "v.", "meaning": "代表", "sentence": "The sign represents which toilet is for women.", "sentence_cn": "这个标志代表哪个厕所是给女性的。"}, {"word": "root", "pos": "n.", "meaning": "根源", "sentence": "The root of their fight was a computer. They would not share it.", "sentence_cn": "他们争吵的根源是一台电脑。他们不愿意分享。"}, {"word": "society", "pos": "n.", "meaning": "社会", "sentence": "Tall buildings and heavy traffic are common in our modern society.", "sentence_cn": "高楼和繁忙的交通在我们的现代社会很常见。"}, {"word": "band", "pos": "n.", "meaning": "乐队", "sentence": "Everyone in this band is male. There are no women or girls.", "sentence_cn": "这个乐队的每个人都是男性。没有女人或女孩。"}, {"word": "fortune", "pos": "n.", "meaning": "财富", "sentence": "Jack earned a fortune from the new technology he developed.", "sentence_cn": "杰克从他开发的新技术中赚了一大笔钱。"}, {"word": "guest", "pos": "n.", "meaning": "客人", "sentence": "Margaret had guests at her house at noon for lunch.", "sentence_cn": "玛格丽特中午有客人在她家吃午饭。"}, {"word": "host", "pos": "n.", "meaning": "主人", "sentence": "The host prepared a lot of delicious food for his guests.", "sentence_cn": "主人为客人准备了很多美味的食物。"}, {"word": "original", "pos": "adj.", "meaning": "原创的", "sentence": "Students are encouraged to create original pieces of art.", "sentence_cn": "鼓励学生创作原创艺术作品。"}, {"word": "peace", "pos": "n.", "meaning": "和平", "sentence": "We all respect each other and live in peace in the community.", "sentence_cn": "我们都互相尊重，在社区中和平共处。"}, {"word": "poem", "pos": "n.", "meaning": "诗歌", "sentence": "Jenna writes and edits her poems in the park near her school.", "sentence_cn": "珍娜在学校附近的公园里写作和编辑她的诗歌。"}, {"word": "sense", "pos": "v.", "meaning": "感觉到", "sentence": "The man sensed that someone was behind him.", "sentence_cn": "那个男人感觉到有人在他身后。"}, {"word": "trust", "pos": "v.", "meaning": "信任", "sentence": "Rita trusted her nurse and enjoyed discussing her problems with her.", "sentence_cn": "丽塔信任她的护士，喜欢和她讨论自己的问题。"}, {"word": "wealthy", "pos": "adj.", "meaning": "富有的", "sentence": "The wealthy businessman owns an airplane and an expensive car.", "sentence_cn": "这位富有的商人拥有一架飞机和一辆昂贵的汽车。"}], "Book4_Unit10": [{"word": "blood", "pos": "n.", "meaning": "血液", "sentence": "Once a month, Ryan gives blood during his lunch break.", "sentence_cn": "瑞恩每月在午休时间献一次血。"}, {"word": "business", "pos": "n.", "meaning": "生意", "sentence": "Gus's business in the rich section of town will make a fortune.", "sentence_cn": "格斯在城里富人区的生意会赚一大笔钱。"}, {"word": "electronic", "pos": "adj.", "meaning": "电子的", "sentence": "Stop using any electronic items when the plane is taking off.", "sentence_cn": "飞机起飞时停止使用任何电子物品。"}, {"word": "influence", "pos": "n.", "meaning": "影响", "sentence": "Art has had a positive influence on Jennifer's career choice.", "sentence_cn": "艺术对詹妮弗的职业选择产生了积极的影响。"}, {"word": "master", "pos": "v.", "meaning": "掌握", "sentence": "Bob feels great joy when he masters new skills on his skateboard.", "sentence_cn": "当鲍勃掌握滑板上的新技能时，他感到非常高兴。"}, {"word": "pity", "pos": "n.", "meaning": "同情", "sentence": "Abigail felt pity for her mother after she lost her job.", "sentence_cn": "阿比盖尔在她母亲失业后感到同情。"}, {"word": "press", "pos": "n.", "meaning": "媒体", "sentence": "The press reported on the event conducted by the city police.", "sentence_cn": "媒体报道了市警察举办的活动。"}, {"word": "shoot", "pos": "v.", "meaning": "射击", "sentence": "The children like to shoot water at one another on hot days.", "sentence_cn": "孩子们在热天喜欢互相喷水。"}, {"word": "signal", "pos": "v.", "meaning": "发信号", "sentence": "The guide signaled for us to follow her through the park.", "sentence_cn": "导游示意我们跟着她穿过公园。"}, {"word": "teenager", "pos": "n.", "meaning": "青少年", "sentence": "Many parents do not trust teenagers to be able to make decisions.", "sentence_cn": "许多父母不信任青少年能够做决定。"}, {"word": "achieve", "pos": "v.", "meaning": "实现", "sentence": "Ray achieved excellent grades in college.", "sentence_cn": "雷在大学取得了优异的成绩。"}, {"word": "beg", "pos": "v.", "meaning": "乞求", "sentence": "Lucy begged her mother for a new toy, but her mother said no.", "sentence_cn": "露西乞求妈妈买一个新玩具，但妈妈说不行。"}, {"word": "control", "pos": "v.", "meaning": "控制", "sentence": "The two wealthy men controlled a business empire.", "sentence_cn": "这两个富人控制着一个商业帝国。"}, {"word": "debate", "pos": "v.", "meaning": "辩论", "sentence": "The students debated their roles before coming to a decision.", "sentence_cn": "学生们在做出决定前辩论了他们的角色。"}, {"word": "improve", "pos": "v.", "meaning": "改善", "sentence": "The girls' plan was to practice every day in order to improve.", "sentence_cn": "女孩们的计划是每天练习以提高。"}, {"word": "similar", "pos": "adj.", "meaning": "相似的", "sentence": "The sisters look quite similar, but you can tell the difference.", "sentence_cn": "姐妹们看起来很相似，但你可以看出区别。"}, {"word": "soldier", "pos": "n.", "meaning": "士兵", "sentence": "Soldiers were called in to help people who were in danger.", "sentence_cn": "士兵被召来帮助处于危险中的人们。"}, {"word": "system", "pos": "n.", "meaning": "系统", "sentence": "You need to have the right skills to handle this computer system.", "sentence_cn": "你需要有正确的技能来处理这个计算机系统。"}, {"word": "war", "pos": "n.", "meaning": "战争", "sentence": "The men fought in the war for several years before it ended.", "sentence_cn": "这些人在战争中战斗了好几年才结束。"}, {"word": "warn", "pos": "v.", "meaning": "警告", "sentence": "Evan did not see the sign warning people about the wet floor.", "sentence_cn": "埃文没有看到警告人们注意湿滑地板的标志。"}], "Book4_Unit11": [{"word": "announce", "pos": "v.", "meaning": "宣布", "sentence": "The press has announced the birth of the baby princess.", "sentence_cn": "媒体宣布了小公主的出生。"}, {"word": "bottom", "pos": "n.", "meaning": "底部", "sentence": "The man found two major problems on the bottom of my car.", "sentence_cn": "那个男人在我车底发现了两个主要问题。"}, {"word": "compete", "pos": "v.", "meaning": "竞争", "sentence": "The boys competed to see who would win the race.", "sentence_cn": "男孩们竞争看谁会赢得比赛。"}, {"word": "copy", "pos": "v.", "meaning": "复制", "sentence": "In the office, Rachel copies papers with a machine.", "sentence_cn": "在办公室里，瑞秋用机器复印文件。"}, {"word": "exhibit", "pos": "n.", "meaning": "展览", "sentence": "Lois and her friends were viewing art exhibits at the museum.", "sentence_cn": "洛伊丝和她的朋友们正在博物馆观看艺术展览。"}, {"word": "print", "pos": "v.", "meaning": "打印", "sentence": "Some businesses make their fortune printing things for others.", "sentence_cn": "一些企业通过为他人打印东西来赚钱。"}, {"word": "project", "pos": "n.", "meaning": "项目", "sentence": "The teenagers worked together on their history project.", "sentence_cn": "青少年们一起完成他们的历史项目。"}, {"word": "proper", "pos": "adj.", "meaning": "正确的", "sentence": "The proper way to recycle is to separate the different items.", "sentence_cn": "正确回收的方式是把不同的物品分开。"}, {"word": "select", "pos": "v.", "meaning": "选择", "sentence": "Ben selected one of the available images on the screen.", "sentence_cn": "本从屏幕上可用的图像中选择了一个。"}, {"word": "sheet", "pos": "n.", "meaning": "纸张", "sentence": "I prefer to write on sheets of paper. I do not trust electronic things.", "sentence_cn": "我喜欢在纸上写字。我不相信电子的东西。"}, {"word": "concentrate", "pos": "v.", "meaning": "集中", "sentence": "Nolan concentrated on the game and considered his next move.", "sentence_cn": "诺兰专注于游戏并考虑他的下一步。"}, {"word": "maximum", "pos": "adj.", "meaning": "最大的", "sentence": "The police officer warned Kay about the maximum speed limit.", "sentence_cn": "警察警告凯关于最高限速。"}, {"word": "prize", "pos": "n.", "meaning": "奖品", "sentence": "Rashid received a prize for achieving the best test scores.", "sentence_cn": "拉希德因取得最好的考试成绩而获奖。"}, {"word": "require", "pos": "v.", "meaning": "要求", "sentence": "You are required to pay money to leave your car here.", "sentence_cn": "你需要付钱才能把车停在这里。"}, {"word": "research", "pos": "v.", "meaning": "研究", "sentence": "Doctors have been researching cures for many diseases.", "sentence_cn": "医生们一直在研究许多疾病的疗法。"}, {"word": "respond", "pos": "v.", "meaning": "回应", "sentence": "Hanna responded to Jim's question on her cell phone.", "sentence_cn": "汉娜通过手机回复了吉姆的问题。"}, {"word": "spell", "pos": "v.", "meaning": "拼写", "sentence": "They spelled the word 'team' with their bodies.", "sentence_cn": "他们用身体拼出了'team'这个词。"}, {"word": "state", "pos": "v.", "meaning": "陈述", "sentence": "Anna stated that she was happy with her new job.", "sentence_cn": "安娜表示她对新工作很满意。"}, {"word": "structure", "pos": "n.", "meaning": "结构", "sentence": "People debate who built this ancient structure.", "sentence_cn": "人们争论是谁建造了这个古老的结构。"}, {"word": "tool", "pos": "n.", "meaning": "工具", "sentence": "Mr. Taylor has a lot of tools similar to these at his home.", "sentence_cn": "泰勒先生家里有很多类似的工具。"}], "Book4_Unit12": [{"word": "flood", "pos": "n.", "meaning": "洪水", "sentence": "The awful flood destroyed several structures in our town.", "sentence_cn": "可怕的洪水摧毁了我们镇上的几座建筑。"}, {"word": "gentle", "pos": "adj.", "meaning": "温柔的", "sentence": "The farmers required that children be gentle with their animals.", "sentence_cn": "农民要求孩子们对动物温柔。"}, {"word": "melt", "pos": "v.", "meaning": "融化", "sentence": "Be careful! Your ice cream is melting. You should eat it fast!", "sentence_cn": "小心！你的冰淇淋正在融化。你应该快点吃！"}, {"word": "operate", "pos": "v.", "meaning": "操作", "sentence": "Cody operates this huge machine on his grandparents' farm.", "sentence_cn": "科迪在他祖父母的农场操作这台巨大的机器。"}, {"word": "recognize", "pos": "v.", "meaning": "认出", "sentence": "Sally recognized some of the things she saw from the train.", "sentence_cn": "萨莉认出了她从火车上看到的一些东西。"}, {"word": "remain", "pos": "v.", "meaning": "保持", "sentence": "It was windy, but Eve's hat remained on her head.", "sentence_cn": "风很大，但夏娃的帽子仍然在她头上。"}, {"word": "task", "pos": "n.", "meaning": "任务", "sentence": "His mom showed him how to complete the task the proper way.", "sentence_cn": "他妈妈向他展示了如何以正确的方式完成任务。"}, {"word": "various", "pos": "adj.", "meaning": "各种各样的", "sentence": "We planted various flowers in front of our house this spring.", "sentence_cn": "今年春天我们在房子前面种了各种各样的花。"}, {"word": "waste", "pos": "v.", "meaning": "浪费", "sentence": "Do not waste water. Turn it off when you are not using it.", "sentence_cn": "不要浪费水。不用的时候关掉它。"}, {"word": "worth", "pos": "adj.", "meaning": "值得的", "sentence": "This car is worth a fortune. I do not think we will be able to buy it.", "sentence_cn": "这辆车值一大笔钱。我认为我们买不起。"}, {"word": "climate", "pos": "n.", "meaning": "气候", "sentence": "She hated the cold climate in the northern part of the country.", "sentence_cn": "她讨厌这个国家北部的寒冷气候。"}, {"word": "emergency", "pos": "n.", "meaning": "紧急情况", "sentence": "People drive at maximum speed to get help during an emergency.", "sentence_cn": "人们在紧急情况下以最高速度行驶去寻求帮助。"}, {"word": "factory", "pos": "n.", "meaning": "工厂", "sentence": "This factory is the root of the air problem in the area.", "sentence_cn": "这家工厂是这个地区空气问题的根源。"}, {"word": "freeze", "pos": "v.", "meaning": "冻结", "sentence": "It was so cold that the lake froze all the way to the bottom.", "sentence_cn": "天太冷了，湖水一直冻到了底。"}, {"word": "population", "pos": "n.", "meaning": "人口", "sentence": "The population of penguins has dropped rather than increased.", "sentence_cn": "企鹅的数量减少了而不是增加了。"}, {"word": "recently", "pos": "adv.", "meaning": "最近", "sentence": "We recently put these plants in pots for our class project.", "sentence_cn": "我们最近把这些植物种在盆里作为班级项目。"}, {"word": "responsible", "pos": "adj.", "meaning": "负责任的", "sentence": "We let Alan borrow our tools because he is a responsible person.", "sentence_cn": "我们让艾伦借我们的工具，因为他是一个负责任的人。"}, {"word": "storm", "pos": "n.", "meaning": "暴风雨", "sentence": "The two men hurried to go inside during the storm.", "sentence_cn": "暴风雨中两个男人匆忙进屋。"}, {"word": "stream", "pos": "n.", "meaning": "小溪", "sentence": "The man ran through the cool water of the stream.", "sentence_cn": "那个男人跑过凉爽的小溪水。"}, {"word": "temperature", "pos": "n.", "meaning": "温度", "sentence": "When Cassie is sick, her temperature rises.", "sentence_cn": "当卡西生病时，她的体温会上升。"}]};
+
+// ==================== 音效系统 (和平精英风格) ====================
+const AudioSys = {
+    ctx: null,
+    init() {
+        if (!this.ctx) {
+            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    },
+
+    // 正确音效 - 清脆的"叮"声 (类似和平精英击中)
+    playCorrect() {
+        if (!gameState.settings.sound) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, t);
+        osc.frequency.exponentialRampToValueAtTime(1760, t + 0.1);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+        osc.start(t);
+        osc.stop(t + 0.3);
+
+        // 第二声
+        const osc2 = this.ctx.createOscillator();
+        const gain2 = this.ctx.createGain();
+        osc2.connect(gain2);
+        gain2.connect(this.ctx.destination);
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(1320, t + 0.08);
+        gain2.gain.setValueAtTime(0.2, t + 0.08);
+        gain2.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+        osc2.start(t + 0.08);
+        osc2.stop(t + 0.25);
+    },
+
+    // 错误音效 - 低沉的"嗡"声 (类似和平精英被击中)
+    playWrong() {
+        if (!gameState.settings.sound) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, t);
+        osc.frequency.exponentialRampToValueAtTime(80, t + 0.4);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+        osc.start(t);
+        osc.stop(t + 0.4);
+    },
+
+    // 连击音效 - 激昂的上升音阶
+    playCombo(combo) {
+        if (!gameState.settings.sound) return;
+        this.init();
+        const baseFreq = 440 + (combo * 50);
+        const t = this.ctx.currentTime;
+        for (let i = 0; i < 3; i++) {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(baseFreq * (1 + i * 0.5), t + i * 0.05);
+            gain.gain.setValueAtTime(0.2, t + i * 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + i * 0.05 + 0.2);
+            osc.start(t + i * 0.05);
+            osc.stop(t + i * 0.05 + 0.2);
+        }
+    },
+
+    // 游戏开始音效
+    playStart() {
+        if (!gameState.settings.sound) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const notes = [523, 659, 784, 1047];
+        notes.forEach((freq, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(freq, t + i * 0.12);
+            gain.gain.setValueAtTime(0.15, t + i * 0.12);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + i * 0.12 + 0.15);
+            osc.start(t + i * 0.12);
+            osc.stop(t + i * 0.12 + 0.15);
+        });
+    },
+
+    // 游戏结束音效
+    playEnd(win) {
+        if (!gameState.settings.sound) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        if (win) {
+            // 胜利音效 - 华丽的和弦
+            const chords = [[523, 659, 784], [587, 740, 880], [659, 831, 988]];
+            chords.forEach((chord, i) => {
+                chord.forEach(freq => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, t + i * 0.2);
+                    gain.gain.setValueAtTime(0.15, t + i * 0.2);
+                    gain.gain.exponentialRampToValueAtTime(0.01, t + i * 0.2 + 0.4);
+                    osc.start(t + i * 0.2);
+                    osc.stop(t + i * 0.2 + 0.4);
+                });
+            });
+        } else {
+            // 失败音效
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(300, t);
+            osc.frequency.exponentialRampToValueAtTime(100, t + 0.8);
+            gain.gain.setValueAtTime(0.2, t);
+            gain.gain.exponentialRampToValueAtTime(0.01, t + 0.8);
+            osc.start(t);
+            osc.stop(t + 0.8);
+        }
+    },
+
+    // 跳过音效
+    playSkip() {
+        if (!gameState.settings.sound) return;
+        this.init();
+        const t = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, t);
+        osc.frequency.exponentialRampToValueAtTime(200, t + 0.15);
+        gain.gain.setValueAtTime(0.2, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+        osc.start(t);
+        osc.stop(t + 0.15);
+    }
+};
+
+// ==================== 语音朗读系统 ====================
+const VoiceSys = {
+    synth: window.speechSynthesis,
+    currentUtterance: null,
+
+    speak(text, rate = 0.9) {
+        if (!gameState.settings.voice || !this.synth) return;
+        this.stop();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.rate = rate;
+        utter.pitch = 1.0;
+        utter.volume = 1.0;
+        utter.lang = 'en-US';
+
+        // 尝试使用更好的英文语音
+        const voices = this.synth.getVoices();
+        const enVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Daniel')));
+        if (enVoice) utter.voice = enVoice;
+
+        this.currentUtterance = utter;
+        this.synth.speak(utter);
+
+        // 视觉反馈
+        const btn = document.getElementById('speakBtn');
+        if (btn) {
+            btn.classList.add('speaking');
+            btn.textContent = '🔊 朗读中...';
+            utter.onend = () => {
+                btn.classList.remove('speaking');
+                btn.textContent = '🔊 朗读';
+            };
+        }
+    },
+
+    stop() {
+        if (this.synth) this.synth.cancel();
+        const btn = document.getElementById('speakBtn');
+        if (btn) {
+            btn.classList.remove('speaking');
+            btn.textContent = '🔊 朗读';
+        }
+    }
+};
+
+// 预加载语音列表
+if (window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = () => {
+        VoiceSys.synth.getVoices();
+    };
+}
+
+// ==================== 游戏状态 ====================
+let gameState = {
+    currentUser: null,
+    currentMode: 'en2cn',
+    selectedUnit: null,
+    currentWords: [],
+    currentIndex: 0,
+    score: 0,
+    hp: 100,
+    combo: 0,
+    maxCombo: 0,
+    correct: 0,
+    wrong: 0,
+    timer: 0,
+    timerInterval: null,
+    isPaused: false,
+    settings: {
+        sound: true,
+        voice: true,
+        vibrate: true,
+        showCn: true,
+        hardMode: false
+    }
+};
+
+// ==================== 本地存储 ====================
+function saveData() {
+    const data = {
+        user: gameState.currentUser,
+        stats: getUserStats(),
+        bossWords: getBossWords(),
+        settings: gameState.settings,
+        lastPlay: new Date().toISOString()
+    };
+    localStorage.setItem('vocabArenaData', JSON.stringify(data));
+}
+
+function loadData() {
+    const saved = localStorage.getItem('vocabArenaData');
+    if (saved) {
+        const data = JSON.parse(saved);
+        if (data.user) gameState.currentUser = data.user;
+        if (data.settings) gameState.settings = {...gameState.settings, ...data.settings};
+        return data;
+    }
+    return null;
+}
+
+function getUserStats() {
+    const saved = localStorage.getItem('vocabArenaStats');
+    return saved ? JSON.parse(saved) : {
+        totalWords: 0, totalXP: 0, todayCorrect: 0, todayWrong: 0, todayStreak: 0, bestStreak: 0, accuracy: 0
+    };
+}
+
+function saveUserStats(stats) {
+    localStorage.setItem('vocabArenaStats', JSON.stringify(stats));
+}
+
+function getBossWords() {
+    const saved = localStorage.getItem('vocabArenaBoss');
+    return saved ? JSON.parse(saved) : [];
+}
+
+function saveBossWords(words) {
+    localStorage.setItem('vocabArenaBoss', JSON.stringify(words));
+}
+
+function addBossWord(word) {
+    const bossWords = getBossWords();
+    if (!bossWords.find(w => w.word === word.word)) {
+        bossWords.push({...word, mistakes: 1, lastSeen: Date.now()});
+    } else {
+        const existing = bossWords.find(w => w.word === word.word);
+        existing.mistakes++;
+        existing.lastSeen = Date.now();
+    }
+    saveBossWords(bossWords);
+}
+
+function removeBossWord(word) {
+    let bossWords = getBossWords();
+    bossWords = bossWords.filter(w => w.word !== word.word);
+    saveBossWords(bossWords);
+}
+
+// ==================== 页面切换 ====================
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+}
+
+function switchTab(tab) {
+    if (tab === 'home' || tab === 'stats') {
+        showPage('homePage');
+        updateHomeStats();
+    } else if (tab === 'settings') {
+        showPage('settingsPage');
+    }
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+}
+
+// ==================== 登录系统 ====================
+function login() {
+    const username = document.getElementById('usernameInput').value.trim();
+    if (!username) { alert('请输入你的特工代号！'); return; }
+    gameState.currentUser = username;
+    const saved = loadData();
+    document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+    document.getElementById('displayUsername').textContent = username;
+    document.getElementById('settingsAvatar').textContent = username.charAt(0).toUpperCase();
+    document.getElementById('settingsUsername').textContent = username;
+    document.getElementById('bottomNav').style.display = 'flex';
+    showPage('homePage');
+    updateHomeStats();
+    renderUnitList();
+}
+
+function backToLogin() {
+    showPage('loginPage');
+    document.getElementById('bottomNav').style.display = 'none';
+}
+
+// ==================== 主页统计 ====================
+function updateHomeStats() {
+    const stats = getUserStats();
+    document.getElementById('totalWords').textContent = stats.totalWords;
+    document.getElementById('totalXP').textContent = stats.totalXP;
+    document.getElementById('todayCorrect').textContent = stats.todayCorrect;
+    document.getElementById('todayStreak').textContent = stats.todayStreak;
+    const total = stats.todayCorrect + stats.todayWrong;
+    const accuracy = total > 0 ? Math.round((stats.todayCorrect / total) * 100) : 0;
+    document.getElementById('todayAccuracy').textContent = accuracy + '%';
+    const level = Math.floor(stats.totalXP / 500) + 1;
+    const ranks = ['新兵', '列兵', '下士', '中士', '上士', '少尉', '中尉', '上尉', '少校', '中校', '上校', '将军'];
+    const rank = ranks[Math.min(level - 1, ranks.length - 1)];
+    document.getElementById('userLevel').textContent = `LV.${level} ${rank}`;
+}
+
+// ==================== 单元列表 ====================
+function renderUnitList() {
+    const container = document.getElementById('unitList');
+    container.innerHTML = '';
+    const units = Object.keys(VOCAB_DATA);
+    const bookNames = {'Book2': 'Book 2', 'Book3': 'Book 3', 'Book4': 'Book 4'};
+    units.forEach((unitKey) => {
+        const words = VOCAB_DATA[unitKey];
+        const book = unitKey.split('_')[0];
+        const unitNum = unitKey.split('_')[1];
+        const item = document.createElement('div');
+        item.className = 'unit-item';
+        item.onclick = () => selectUnit(unitKey);
+        item.innerHTML = `
+            <div class="unit-info"><div class="unit-name">${bookNames[book]} - ${unitNum}</div><div class="unit-progress">${words.length} 词</div></div>
+            <div class="unit-progress-bar"><div class="unit-progress-fill" style="width: ${Math.random() * 100}%"></div></div>
+            <div class="unit-status">可挑战</div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+function selectUnit(unitKey) {
+    gameState.selectedUnit = unitKey;
+    startGame('en2cn');
+}
+
+// ==================== 游戏核心逻辑 ====================
+function startGame(mode) {
+    gameState.currentMode = mode;
+    gameState.score = 0;
+    gameState.hp = 100;
+    gameState.combo = 0;
+    gameState.maxCombo = 0;
+    gameState.correct = 0;
+    gameState.wrong = 0;
+    gameState.timer = 0;
+    gameState.currentIndex = 0;
+    gameState.isPaused = false;
+
+    if (mode === 'boss') {
+        const bossWords = getBossWords();
+        if (bossWords.length === 0) { alert('恭喜！你的错题本(Boss列表)是空的！'); return; }
+        gameState.currentWords = shuffleArray([...bossWords]).slice(0, 20);
+    } else if (gameState.selectedUnit) {
+        gameState.currentWords = shuffleArray([...VOCAB_DATA[gameState.selectedUnit]]);
+    } else {
+        let allWords = [];
+        Object.values(VOCAB_DATA).forEach(unit => { allWords = allWords.concat(unit); });
+        gameState.currentWords = shuffleArray(allWords).slice(0, 50);
+    }
+
+    showPage('gamePage');
+    document.getElementById('bottomNav').style.display = 'none';
+    AudioSys.playStart();
+    startTimer();
+    showNextWord();
+}
+
+function shuffleArray(array) {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+}
+
+function startTimer() {
+    if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+    gameState.timerInterval = setInterval(() => {
+        if (!gameState.isPaused) {
+            gameState.timer++;
+            const mins = Math.floor(gameState.timer / 60).toString().padStart(2, '0');
+            const secs = (gameState.timer % 60).toString().padStart(2, '0');
+            document.getElementById('gameTimer').textContent = `${mins}:${secs}`;
+        }
+    }, 1000);
+}
+
+function speakCurrent() {
+    const word = gameState.currentWords[gameState.currentIndex];
+    if (!word) return;
+    if (gameState.currentMode === 'sentence') {
+        VoiceSys.speak(word.sentence, 0.85);
+    } else {
+        VoiceSys.speak(word.word + '. ' + word.sentence, 0.9);
+    }
+}
+
+function showNextWord() {
+    if (gameState.currentIndex >= gameState.currentWords.length) {
+        endGame();
+        return;
+    }
+
+    const word = gameState.currentWords[gameState.currentIndex];
+    const mode = gameState.currentMode;
+
+    document.getElementById('errorReveal').style.display = 'none';
+
+    if (mode === 'en2cn') {
+        document.getElementById('wordType').textContent = word.pos;
+        document.getElementById('wordMain').textContent = word.word;
+        document.getElementById('wordMeaning').style.display = 'block';
+        document.getElementById('wordMeaning').textContent = '(选择正确的中文意思)';
+        document.getElementById('wordSentence').textContent = word.sentence;
+        document.getElementById('wordSentenceCn').textContent = gameState.settings.showCn ? word.sentence_cn : '';
+    } else if (mode === 'cn2en') {
+        document.getElementById('wordType').textContent = word.pos;
+        document.getElementById('wordMain').textContent = word.meaning;
+        document.getElementById('wordMeaning').style.display = 'none';
+        document.getElementById('wordSentence').textContent = '(选择正确的英文单词)';
+        document.getElementById('wordSentenceCn').textContent = '';
+    } else if (mode === 'sentence') {
+        document.getElementById('wordType').textContent = '句子理解';
+        document.getElementById('wordMain').textContent = word.sentence;
+        document.getElementById('wordMeaning').style.display = 'none';
+        document.getElementById('wordSentence').textContent = '(选择句子的正确翻译)';
+        document.getElementById('wordSentenceCn').textContent = '';
+    }
+
+    generateOptions(word, mode);
+    document.getElementById('gameScore').textContent = gameState.score;
+    document.getElementById('hpBar').style.width = gameState.hp + '%';
+
+    const comboDisplay = document.getElementById('comboDisplay');
+    if (gameState.combo >= 3) {
+        comboDisplay.textContent = `🔥 ${gameState.combo} 连击！`;
+        comboDisplay.classList.add('active');
+        setTimeout(() => comboDisplay.classList.remove('active'), 300);
+    } else {
+        comboDisplay.textContent = '';
+    }
+
+    // 自动朗读
+    if (gameState.settings.voice) {
+        setTimeout(() => speakCurrent(), 500);
+    }
+}
+
+function generateOptions(correctWord, mode) {
+    const container = document.getElementById('optionsContainer');
+    container.innerHTML = '';
+
+    let options = [];
+    let correctAnswer = '';
+
+    if (mode === 'en2cn') {
+        correctAnswer = correctWord.meaning;
+        let allMeanings = [];
+        Object.values(VOCAB_DATA).forEach(unit => { allMeanings = allMeanings.concat(unit.map(w => w.meaning)); });
+        allMeanings = allMeanings.filter(m => m !== correctAnswer);
+        options = shuffleArray(allMeanings).slice(0, 3);
+        options.push(correctAnswer);
+    } else if (mode === 'cn2en') {
+        correctAnswer = correctWord.word;
+        let allWords = [];
+        Object.values(VOCAB_DATA).forEach(unit => { allWords = allWords.concat(unit.map(w => w.word)); });
+        allWords = allWords.filter(w => w !== correctAnswer);
+        options = shuffleArray(allWords).slice(0, 3);
+        options.push(correctAnswer);
+    } else if (mode === 'sentence') {
+        correctAnswer = correctWord.sentence_cn;
+        let allSentences = [];
+        Object.values(VOCAB_DATA).forEach(unit => { allSentences = allSentences.concat(unit.map(w => w.sentence_cn)); });
+        allSentences = allSentences.filter(s => s !== correctAnswer);
+        options = shuffleArray(allSentences).slice(0, 3);
+        options.push(correctAnswer);
+    }
+
+    options = shuffleArray(options);
+
+    const labels = ['A', 'B', 'C', 'D'];
+    options.forEach((opt, index) => {
+        const btn = document.createElement('div');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span class="option-label">${labels[index]}</span>${opt}`;
+        btn.onclick = () => selectOption(opt, correctAnswer, correctWord, btn);
+        container.appendChild(btn);
+    });
+}
+
+function selectOption(selected, correct, wordObj, btnElement) {
+    document.querySelectorAll('.option-btn').forEach(btn => { btn.style.pointerEvents = 'none'; });
+
+    if (selected === correct) {
+        btnElement.classList.add('correct');
+        gameState.correct++;
+        gameState.combo++;
+        if (gameState.combo > gameState.maxCombo) gameState.maxCombo = gameState.combo;
+
+        let points = 10;
+        if (gameState.combo >= 5) points = 20;
+        if (gameState.combo >= 10) points = 30;
+        gameState.score += points;
+
+        gameState.hp = Math.min(100, gameState.hp + 5);
+        removeBossWord(wordObj);
+
+        AudioSys.playCorrect();
+        if (gameState.combo >= 3) AudioSys.playCombo(gameState.combo);
+
+        if (gameState.settings.vibrate && navigator.vibrate) navigator.vibrate(50);
+
+        if (gameState.combo === 5 || gameState.combo === 10 || gameState.combo === 15) {
+            showStreakEffect(gameState.combo);
+        }
+
+        setTimeout(() => {
+            gameState.currentIndex++;
+            showNextWord();
+        }, 800);
+    } else {
+        btnElement.classList.add('wrong');
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            if (btn.textContent.includes(correct)) btn.classList.add('revealed');
+        });
+
+        gameState.wrong++;
+        gameState.combo = 0;
+        gameState.hp = Math.max(0, gameState.hp - 15);
+        addBossWord(wordObj);
+
+        AudioSys.playWrong();
+        if (gameState.settings.vibrate && navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+        showErrorReveal(wordObj, gameState.currentMode);
+
+        if (gameState.hp <= 0) {
+            setTimeout(() => endGame(), 1500);
+        } else {
+            setTimeout(() => {
+                gameState.currentIndex++;
+                showNextWord();
+            }, 2000);
+        }
+    }
+
+    document.getElementById('gameScore').textContent = gameState.score;
+    document.getElementById('hpBar').style.width = gameState.hp + '%';
+}
+
+function showErrorReveal(wordObj, mode) {
+    const reveal = document.getElementById('errorReveal');
+    const content = document.getElementById('errorContent');
+    const cn = document.getElementById('errorCn');
+
+    if (mode === 'en2cn') {
+        content.textContent = `${wordObj.word} = ${wordObj.meaning}`;
+        cn.textContent = `例句: ${wordObj.sentence_cn}`;
+    } else if (mode === 'cn2en') {
+        content.textContent = `${wordObj.meaning} = ${wordObj.word}`;
+        cn.textContent = `例句: ${wordObj.sentence_cn}`;
+    } else if (mode === 'sentence') {
+        content.textContent = wordObj.sentence;
+        cn.textContent = `翻译: ${wordObj.sentence_cn}`;
+    }
+
+    reveal.style.display = 'block';
+}
+
+function showStreakEffect(combo) {
+    const effect = document.createElement('div');
+    effect.className = 'streak-effect';
+    effect.textContent = `${combo} 连击!`;
+    document.body.appendChild(effect);
+    setTimeout(() => effect.remove(), 1000);
+}
+
+function skipWord() {
+    gameState.combo = 0;
+    gameState.hp = Math.max(0, gameState.hp - 5);
+    document.getElementById('hpBar').style.width = gameState.hp + '%';
+
+    const word = gameState.currentWords[gameState.currentIndex];
+    addBossWord(word);
+    AudioSys.playSkip();
+
+    gameState.currentIndex++;
+    showNextWord();
+}
+
+function pauseGame() {
+    gameState.isPaused = true;
+    VoiceSys.stop();
+    document.getElementById('pauseOverlay').classList.add('active');
+}
+
+function resumeGame() {
+    gameState.isPaused = false;
+    document.getElementById('pauseOverlay').classList.remove('active');
+}
+
+function quitGame() {
+    gameState.isPaused = false;
+    document.getElementById('pauseOverlay').classList.remove('active');
+    if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+    endGame();
+}
+
+// ==================== 游戏结束 ====================
+function endGame() {
+    if (gameState.timerInterval) clearInterval(gameState.timerInterval);
+    VoiceSys.stop();
+
+    const stats = getUserStats();
+    stats.totalWords += gameState.correct;
+    stats.totalXP += gameState.score;
+    stats.todayCorrect += gameState.correct;
+    stats.todayWrong += gameState.wrong;
+    if (gameState.maxCombo > stats.bestStreak) stats.bestStreak = gameState.maxCombo;
+
+    const total = stats.todayCorrect + stats.todayWrong;
+    stats.accuracy = total > 0 ? Math.round((stats.todayCorrect / total) * 100) : 0;
+
+    saveUserStats(stats);
+    saveData();
+
+    showPage('resultPage');
+
+    const totalQuestions = gameState.correct + gameState.wrong;
+    const accuracy = totalQuestions > 0 ? Math.round((gameState.correct / totalQuestions) * 100) : 0;
+
+    document.getElementById('resultCorrect').textContent = gameState.correct;
+    document.getElementById('resultWrong').textContent = gameState.wrong;
+    document.getElementById('resultCombo').textContent = gameState.maxCombo;
+    document.getElementById('resultXP').textContent = gameState.score;
+
+    const circle = document.getElementById('progressCircle');
+    const circumference = 2 * Math.PI * 42;
+    const offset = circumference - (accuracy / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+    document.getElementById('progressText').textContent = accuracy + '%';
+
+    let rank = '', icon = '';
+    if (accuracy >= 90) { rank = 'S级 传奇'; icon = '👑'; }
+    else if (accuracy >= 80) { rank = 'A级 精英'; icon = '🥇'; }
+    else if (accuracy >= 70) { rank = 'B级 老兵'; icon = '🥈'; }
+    else if (accuracy >= 60) { rank = 'C级 新兵'; icon = '🥉'; }
+    else { rank = 'D级 学徒'; icon = '📖'; }
+
+    document.getElementById('resultRank').textContent = `评价: ${rank}`;
+    document.getElementById('resultIcon').textContent = icon;
+    document.getElementById('resultTitle').textContent = accuracy >= 80 ? '完美胜利！' : '战斗结束';
+    document.getElementById('resultSubtitle').textContent = accuracy >= 80 ? '你的表现令人惊叹！' : '表现不错，继续加油！';
+
+    AudioSys.playEnd(accuracy >= 60);
+}
+
+function backToHome() {
+    showPage('homePage');
+    document.getElementById('bottomNav').style.display = 'flex';
+    updateHomeStats();
+}
+
+function retryGame() {
+    startGame(gameState.currentMode);
+}
+
+// ==================== 排行榜 ====================
+function showLeaderboard() {
+    showPage('leaderboardPage');
+    const list = document.getElementById('leaderboardList');
+    list.innerHTML = '';
+    const leaderboard = [
+        {name: 'DragonSlayer', score: 8540}, {name: 'WordMaster', score: 7230},
+        {name: 'VocabKing', score: 6910}, {name: 'EnglishAce', score: 5480},
+        {name: 'StudyHero', score: 4320}
+    ];
+    if (gameState.currentUser) {
+        const stats = getUserStats();
+        leaderboard.push({name: gameState.currentUser, score: stats.totalXP, isUser: true});
+    }
+    leaderboard.sort((a, b) => b.score - a.score);
+    leaderboard.forEach((entry, index) => {
+        const item = document.createElement('div');
+        item.className = 'leaderboard-item';
+        let rankClass = 'normal';
+        if (index === 0) rankClass = 'gold';
+        else if (index === 1) rankClass = 'silver';
+        else if (index === 2) rankClass = 'bronze';
+        item.innerHTML = `
+            <div class="leaderboard-rank ${rankClass}">${index + 1}</div>
+            <div class="leaderboard-info"><div class="leaderboard-name">${entry.name} ${entry.isUser ? '(你)' : ''}</div><div class="leaderboard-score">${entry.score} XP</div></div>
+            <div class="leaderboard-points">${entry.score}</div>
+        `;
+        list.appendChild(item);
+    });
+}
+
+// ==================== 设置 ====================
+function toggleSetting(element) {
+    element.classList.toggle('active');
+    const id = element.id;
+    if (id === 'soundToggle') gameState.settings.sound = element.classList.contains('active');
+    if (id === 'voiceToggle') gameState.settings.voice = element.classList.contains('active');
+    if (id === 'vibrateToggle') gameState.settings.vibrate = element.classList.contains('active');
+    if (id === 'showCnToggle') gameState.settings.showCn = element.classList.contains('active');
+    if (id === 'hardModeToggle') gameState.settings.hardMode = element.classList.contains('active');
+    saveData();
+}
+
+function resetProgress() {
+    if (confirm('确定要重置所有进度吗？此操作不可恢复！')) {
+        localStorage.removeItem('vocabArenaData');
+        localStorage.removeItem('vocabArenaStats');
+        localStorage.removeItem('vocabArenaBoss');
+        alert('进度已重置！');
+        location.reload();
+    }
+}
+
+function exportData() {
+    const data = localStorage.getItem('vocabArenaData');
+    if (data) {
+        navigator.clipboard.writeText(data).then(() => alert('数据已复制到剪贴板！')).catch(() => alert('复制失败'));
+    } else { alert('暂无数据可导出'); }
+}
+
+// ==================== 初始化 ====================
+document.addEventListener('DOMContentLoaded', function() {
+    const saved = loadData();
+    if (saved && saved.user) {
+        gameState.currentUser = saved.user;
+        document.getElementById('usernameInput').value = saved.user;
+        login();
+    }
+});
+    </script>
+</body>
+</html>
